@@ -2,3 +2,4 @@
 *.pyc
 staticfiles
 custom.py
+*.sqlite3
