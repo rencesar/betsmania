@@ -1,0 +1,17 @@
+image: python:3.5
+
+test:
+  script:
+  - apt-get update -qy
+  - apt-get install -y python3-dev python3-pip python3-setuptools
+  - pip install -r requirements/dev.txt
+  - python manage.py behave
+
+deploy:
+  script:
+  - apt-get update -qy
+  - apt-get install -y ruby-dev
+  - gem install dpl
+  - dpl --provider=heroku --app=betsmania --api-key=$HEROKU_STAGING_API_KEY
+  only:
+    - master
