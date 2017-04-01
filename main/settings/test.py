@@ -1,9 +1,12 @@
+import dj_database_url
+
+from . import dirs
+
 DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.postgresql',
-         'NAME': 'python-test-app',
-         'USER': 'postgres',
-         'HOST': 'postgres',
-         'PORT': 5432,
-     }
- }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(dirs.PROJECT_DIR, 'db.sqlite3'),
+    }
+}
+
+DATABASES['default'] =  dj_database_url.config()
