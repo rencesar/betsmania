@@ -1,11 +1,13 @@
-image: python:3.5
+db:
+ image: postgres
 
 test:
-  script:
-  - apt-get update -qy
-  - apt-get install -y python3-dev python3-pip python3-setuptools
-  - pip install -r requirements/dev.txt
-  - python manage.py behave
+  build: .
+  command: python manage.py behave
+  volumes:
+    - .:/code
+ depends_on:
+   - db
 
 deploy:
   script:
