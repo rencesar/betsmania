@@ -1,7 +1,7 @@
 image: python:3.5
 
-db:
-  image: postgres
+services:
+  - postgres:latest
 
 test:
   script:
