@@ -1,9 +1,9 @@
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'betsmania',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'HOST': 'postgres',
+        'HOST': 'test',
         'PORT': '',
     }
 }
