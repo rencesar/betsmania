@@ -1,16 +1,9 @@
-import os
-
-import dj_database_url
-
-from . import dirs
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(dirs.PROJECT_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'betsmania',
+        'USER': 'postgres',
+        'HOST': 'postgres',
+        'PORT': '',
     }
 }
-
-DATABASES['default'] =  dj_database_url.config()
-
-DATABASES['default']['ENGINE'] = 'django_postgrespool'

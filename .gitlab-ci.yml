@@ -2,7 +2,7 @@ image: python:3.5
 
 test:
     script:
-        - export DATABASE_URL=postgres://postgres:@postgres:5432/python-test-app
+        - export DATABASE_URL=postgres://postgres:@postgres:5432/betsmania
         - apt-get update -qy
         - apt-get install -y python3-dev python3-pip python3-setuptools
         - pip install -r requirements/dev.txt
