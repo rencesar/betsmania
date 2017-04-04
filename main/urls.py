@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from apostador import views as apostador
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'login/', apostador.LoginView.as_view(), name='login')
 ]
