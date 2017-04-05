@@ -26,8 +26,8 @@ def before_all(context):
     context.server_url = 'http://localhost:8000'
 
 
-def before_scenario(context, scenario):
-    call_command('flush', interactive=False, verbosity=0)
+# def before_scenario(context, scenario):
+#     call_command('flush', interactive=False, verbosity=0)
 
 
 def after_step(context, step):

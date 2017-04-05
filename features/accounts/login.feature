@@ -3,7 +3,7 @@ Funcionalidade: Login no sistema
 	
 	Como visitante
 	Afim de fazer login no sistema
-	Devo ser capaz de entrar na minha conta preenchendo corretamente meus dados
+	Devo ser capaz de entrar na minha conta
 
 	@wip
 	Cenário: Fazer login com dados corretamente

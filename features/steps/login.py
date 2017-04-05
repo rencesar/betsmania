@@ -9,7 +9,6 @@ def resgistred_user_with_args(context):
             first_name=row['NOME'],
             username=row['USERNAME'],
             email=row['EMAIL'],
-            password=row['SENHA'],
         )
 
 

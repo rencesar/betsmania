@@ -3,7 +3,7 @@ from behave import step
 
 @step(u'que acesso a página inicial')
 def initial_page_access(context):
-    context.browser.visit(context.server_url)
+    context.browser.visit(context.base_url)
 
 
 @step(u'que acesso como visitante')
