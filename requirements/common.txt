@@ -1,12 +1,11 @@
-behave==1.2.5
 behave-django==0.5.0
 dj-database-url==0.4.2
-Django==1.10.6
+Django==1.11
 django-factory-boy==1.0.0
 factory-boy==2.8.1
 ipdb==0.10.2
 psycopg2==2.7.1
 python-decouple==3.0
-selenium==3.3.1
+selenium==3.3.3
 splinter==0.7.5
 whitenoise==3.3.0

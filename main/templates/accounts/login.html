@@ -1,5 +1,11 @@
-<html>
-<body>
+{% extends "base.html" %}
+
+{% block container %}
+</br>
+</br>
+</br>
+</br>
+</br>
 {% for message in messages %}
 {{ message }}
 {% endfor %}
@@ -7,5 +13,4 @@
     {{ form }}
     <button type="submit">Acessar</button>
 </form>
-</body>
-</html>
+{% endblock %}

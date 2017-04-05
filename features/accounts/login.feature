@@ -7,13 +7,14 @@ Funcionalidade: Login no sistema
 
 	@wip
 	Cenário: Fazer login com dados corretamente
-		Dado que acesso como visitante
-		E que está na página inicial
+		Dado que acesso a página inicial
+		E que acesso como visitante
 		E possuo uma conta cadastrada com dados conforme abaixo:
-			|  NOME             |  USERNAME |  EMAIL               |  SENHA        |
-			|  Anderson Carlos  |  anderson |  anderson@gmail.com  |  anderson123  |
-		Quando clico no botão "Login"
-		E preencho os dados conforme abaixo:
-			|  USERNAME |  SENHA     |
-			|  paulo    |  paulo123  |
+			|  NOME             |  USERNAME |  EMAIL               |  SENHA     |
+			|  Anderson Carlos  |  anderson |  anderson@gmail.com  |  senha123  |
+		Quando clico no link "Login"
+		E preencho os dados de login conforme abaixo:
+			|  USERNAME  |  SENHA     |
+			|  anderson  |  senha123  |
+		E clico no botão "Acessar"
 		Então estárei na pagina "Login efetuado com sucesso!"
