@@ -142,4 +142,9 @@ DOCS_ROOT = os.path.join(dirs.PROJECT_DIR, 'docs')
 MEDIA_ROOT = os.path.join(dirs.PROJECT_DIR, 'media')
 
 # Deploy Configuration
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+if os.environ.get('DEPLOY', False):
+    print('-----------------------------')
+    print('-----------------------------')
+    print('-----------------------------')
+    print('-----------------------------')
+    STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
