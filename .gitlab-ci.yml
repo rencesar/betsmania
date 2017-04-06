@@ -7,6 +7,7 @@ test:
         - apt-get update -qy
         - apt-get install -y python3-dev python3-pip python3-setuptools
         - pip install -r requirements/dev.txt
+        - npm --loglevel=silent install -g bower gulp phantomjs-prebuilt
         - python manage.py behave
 
 production:
