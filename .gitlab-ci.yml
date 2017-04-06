@@ -9,7 +9,7 @@ test:
         - pip install -r requirements/dev.txt
         - ln -s /usr/bin/nodejs /usr/bin/node
         - npm install -g phantomjs
-        - python manage.py collectstatic
+        - python manage.py collectstatic --noinput
         - python manage.py behave
 
 production:
