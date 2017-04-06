@@ -3,7 +3,6 @@ dj-database-url==0.4.2
 Django==1.11
 django-factory-boy==1.0.0
 factory-boy==2.8.1
-ipdb==0.10.2
 psycopg2==2.7.1
 python-decouple==3.0
 selenium==3.3.3

@@ -5,5 +5,8 @@ DATABASES = {
         'USER': 'postgres',
         'HOST': 'postgres',
         'PORT': '',
+        'TEST': {
+            'NAME': 'test_betsmania',
+        },
     }
 }
