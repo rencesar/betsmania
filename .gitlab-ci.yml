@@ -1,0 +1,23 @@
+image: python:3.6
+
+test:
+    services:
+        - postgres:latest
+    script:
+        - apt-get update -qy
+        - apt-get install -y python3-dev python3-pip python3-setuptools npm
+        - pip install -r requirements/dev.txt
+        - ln -s /usr/bin/nodejs /usr/bin/node
+        - npm install -g phantomjs
+        - python manage.py collectstatic --noinput
+        - python manage.py behave
+
+production:
+    type: deploy
+    script:
+        - apt-get update -qy
+        - apt-get install -y ruby-dev
+        - gem install dpl
+        - dpl --provider=heroku --app=betsmania --api-key=$HEROKU_STAGING_API_KEY
+    only:
+        - master

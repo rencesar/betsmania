@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block container %}
+</br>
+</br>
+</br>
+</br>
+</br>
+{% for message in messages %}
+{{ message }}
+{% endfor %}
+<form id="login" method="POST" action="{{ request.path }}">{% csrf_token %}
+    {{ form }}
+    <button type="submit">Acessar</button>
+</form>
+{% endblock %}

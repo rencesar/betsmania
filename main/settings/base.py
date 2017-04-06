@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'behave_django',
-    'apostador',
+    'contas',
 ]
 
 MIDDLEWARE = [
@@ -89,7 +89,7 @@ DATABASES = {
 }
 
 
-DATABASES['default'] =  dj_database_url.config()
+DATABASES['default'] = dj_database_url.config()
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -142,4 +142,5 @@ DOCS_ROOT = os.path.join(dirs.PROJECT_DIR, 'docs')
 MEDIA_ROOT = os.path.join(dirs.PROJECT_DIR, 'media')
 
 # Deploy Configuration
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+if os.environ.get('DEPLOY', False):
+    STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
