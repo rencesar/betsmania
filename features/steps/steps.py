@@ -1,5 +1,5 @@
 from behave import step
-
+from nose.tools import assert_true
 
 @step(u'que acesso a página inicial')
 def initial_page_access(context):
@@ -8,8 +8,8 @@ def initial_page_access(context):
 
 @step(u'que acesso como visitante')
 def access_as_visit(context):
-    context.browser.is_text_not_present('Logado como')
-    context.browser.is_text_present('Login')
+    assert_true(context.browser.is_text_not_present('Logado como'))
+    assert_true(context.browser.is_text_present('Login'))
 
 
 @step(u'clico no botão "{button}"')
@@ -23,6 +23,7 @@ def click_on_button(context, link):
     context.browser.click_link_by_text(link)
 
 
-@step(u'estárei na pagina "{message}"')
+@then(u'estárei na página "{message}"')
 def in_page_with_message(context, message):
-    assert context.browser.is_text_present(message)
+    print(message)
+    assert_true(context.browser.is_text_present(message))

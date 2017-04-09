@@ -1,0 +1,30 @@
+import os
+from . import dirs
+
+
+SECRET_KEY = '^+o_%4q%rd0n76$sdrow!dg)t4yt%z16&x(ny-t@61lp%j(c@4'
+
+DEBUG = True
+
+ALLOWED_HOSTS = []
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'betsmania',
+        'USER': 'bets',
+        'PASSWORD': 'senha',
+        'HOST': 'localhost',
+        'PORT': '',
+        'TEST': {
+            'NAME': 'test_betsmania',
+        },
+    }
+}
+
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(dirs.APP_DIR, 'static'),
+)
+STATIC_ROOT = os.path.join(dirs.PROJECT_DIR, 'staticfiles')
