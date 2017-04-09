@@ -47,6 +47,7 @@
               <span>Logado como {{ user }}</span>
             {% else %}
               <li><a href="{% url 'contas:login' %}">Login</a></li>
+              <li><a href="{% url 'contas:cadastro' %}">Cadastrar</a></li>
             {% endif %}
           </ul>
         </div><!--/.nav-collapse -->
