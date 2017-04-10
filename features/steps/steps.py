@@ -23,7 +23,12 @@ def click_on_button(context, link):
     context.browser.click_link_by_text(link)
 
 
-@then(u'estárei na página "{message}"')
+@step(u'estárei na página "{message}"')
 def in_page_with_message(context, message):
     print(message)
     assert_true(context.browser.is_text_present(message))
+
+# @step(u'hoje é dia (\d{2})/(\d{2})/(\d{4})(?: às (\d{2}):(\d{2}))?')
+# def set_defined_date(context, date):
+#     print(context['current_date'])
+#     aware = date

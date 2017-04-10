@@ -1,5 +1,6 @@
 import os
 import pdb
+# import mock
 from behave import runner
 from django.core.management import call_command
 from django.utils.translation import activate
@@ -39,6 +40,13 @@ def before_all(context):
 def after_step(context, step):
     if BEHAVE_DEBUG_ON_ERROR and step.status == "failed":
         pdb.post_mortem(step.exc_traceback)
+    # current_date = context.get('current_date', None)
+    # if current_date:
+    #     with mock.patch('django.utils.timezone.now', lambda: current_date):
+    #         yield
+    # else:
+    #     yield
+
 
 def after_all(context):
     context.browser.quit()
