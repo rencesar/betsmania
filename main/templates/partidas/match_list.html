@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block container %}
+<div class="col-md-12 home-bar">
+   <ul class="list-group">
+      <li class="list-group-item bg-custom"><span class="glyphicon glyphicon-search"></span> <strong>Pesquisar</strong></li>
+   </ul>
+
+</div>
+<div class="col-md-8" >
+
+   <!-- PAINEL COM UM CAMPEONATO -->
+   {% for league, matches in object_list.items %}
+      <div class="panel panel-default">
+
+         <div class="panel-heading bg-custom js-jCampeonato"><i class="fa fa-trophy" aria-hidden="true"></i> <strong>{{ league }}</strong></div>
+
+         <!-- TABELA COM OS JOGOS DO CAMPEONATO -->
+         <table class="table table-bordered ">
+            <tr class="info text-custom">
+               <th class="text-center">Data</th>
+               <th class="text-center">Time Casa</th>
+               <th class="text-center">Time Fora</th>
+               <th class="text-center">Vitória Casa</th>
+               <th class="text-center">Vitória Fora</th>
+               <th class="text-center">Empate</th>
+               <th class="text-center">Extras</th>
+            </tr>
+
+            <!-- CADA TR É UM JOGO -->
+            {% for match in matches %}
+            <tr class="js-infoApostaJogo" aria-label="Informação da Aposta do Jogo">
+               <td class="text-center js-jData">05/05/2017</td>
+               <td class="text-center js-jTimeCasa">{{ match.home_team }}</td>
+               <td class="text-center js-jTimeFora">{{ match.visiting_team }}</td>
+               <td class="text-center js-jVitoriaCasa"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Casa">{{ match.home_win }}</button></td>
+               <td class="text-center js-jVitoriaFora"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Fora">{{ match.draw }}</button></td>
+               <td class="text-center js-jEmpate"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Empate">{{ match.visiting_win }}</button></td>
+               <td class="text-center js-jExtras"><button type="button" class="btn btn-default btn-xs" name="Extras"><i class="fa fa-plus" aria-hidden="true"></i></button></td>
+            </tr>
+            {% endfor %}
+         </table>
+      </div>
+   {% endfor %}
+
+   <!-- AREA PARA NAVEGAÇÃO ENTRE AS PAGINAS DE CAMPEONATOS -->
+   <nav aria-label="Page navigation" class="navegation-style">
+      <ul class="pagination">
+
+         {% if page_obj.has_previous %}
+            <li>
+               <a href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+               </a>
+            </li>
+         {% endif %}
+
+         {% for page in paginatior.page_range %}
+            <li {% if page_obj.number == page %} class="active" {% endif %}>
+               <a href="?page={{ page }}">{{ page }}</a>
+            </li>
+         {% endfor %}
+
+         {% if page_obj.has_next %}
+         <li>
+            <a href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+               <span aria-hidden="true">&raquo;</span>
+            </a>
+         </li>
+         {% endif %}
+      </ul>
+   </nav>
+</div>
+
+<div class="col-md-4">
+   <div class="panel panel-default">
+
+      <div class="panel-heading bg-custom"><i class="fa fa-money" aria-hidden="true"></i><strong> Aposta</strong></div>
+
+      <div class="panel-body">
+
+         <!-- AREA COM INPUT PARA ENTRADA DO VALOR DA APOSTA -->
+         <label for="basic-url" class="text-custom">Valor da Aposta *</label>
+         <div class="input-group">
+            <span class="input-group-addon text-success">$</span>
+            <input type="text" class="form-control js-inptValorAposta" aria-label="Valor da Aposta" autofocus>
+         </div>
+         <div role="separator" class="form-group"></div>
+
+         <!-- AREA QUE INFORMA POSSIVEL RETORNO -->
+         <div class="alert alert-info text-center" role="alert">
+            <label>Possivel Retorno</label>
+            <p>R$<span class="js-possivelRetorno"> 0,00</span></p>
+         </div>
+
+         <!-- REMOVER TODOS AS APOSTAS -->
+         <div class="btn-group btn-group-justified" >
+            <div class="btn-group">
+               <button type="button" class="btn btn-danger js-buttonRemoveAllBets"><strong><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remover Todas as Apostas</strong></button>
+            </div>
+         </div>
+         <div role="separator" class="form-group"></div>
+
+         <!-- PAINEL COM GRUPO DE APOSTAS -->
+         <div class="panel panel-danger">
+
+            <!-- TITUTO COM O NUMERO TOTAL DE APOSTAS FEITAS -->
+            <div class="panel-heading text-center"><strong>Total de Apostas: </strong><span class="badge"> 0 </span></div>
+
+            <ul class="list-group js-groupAposta" role="group" aria-label="Grupo de Aposta">
+               <!-- INPUT HIDDEN QUE GUARDA O VALOR TOTAL DA SOMA DAS APOSTAS -->
+               <input type="hidden" class="js-totalValorAposta" name="totalValorAposta" value="0">
+
+               <!-- AREA DE UMA APOSTA -->
+               <li class="list-group-item border-danger hidden js-aposta">
+                  <p class="text-danger js-jogo"></p>
+                  <p class="text-danger js-campeonato"></p>
+                  <p class="text-danger js-dataHora"> 05/05/2017 16:00:00</p>
+                  <p class="text-danger js-tipoAposta"></p>
+                  <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                     <div class="btn-group" role="group">
+                        <button type="button" class="btn bg-danger border-danger2 text-danger2 js-buttonRemoveBet"><strong><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remover essa Aposta</strong></button>
+                     </div>
+                  </div>
+               </li>
+            </ul>
+         </div>
+      </div>
+
+   </div>
+</div>
+{% endblock %}
+
+{% block js %}
+
+<script type="text/javascript">
+
+
+// ADICIONAR UMA APOSTA
+(function addBet(){
+
+   $(".js-btnAposta").click(function(){
+      var $this = $(this);
+      var totalApostas = $(".js-groupAposta").siblings(".panel-heading").children(".badge");
+      var totalValorAposta =  $(".js-totalValorAposta");
+
+      $(".js-groupAposta").append(newBet($this));
+      totalApostas.text(parseInt(totalApostas.text()) + 1);
+      totalValorAposta.val(parseFloat(totalValorAposta.val()) + parseFloat($this.text()));
+      calculatePossibleBetReturn();
+   });
+
+   function newBet(target){
+      var $aposta = $(".js-aposta").clone();
+      var $timeCasa = target.parent().siblings(".js-jTimeCasa").text();
+      var $timeFora = target.parent().siblings(".js-jTimeFora").text();
+      var $campeonato = target.closest(".table").siblings(".js-jCampeonato").text();
+
+
+      $aposta.removeClass("js-aposta");
+      $aposta.removeClass("hidden");
+      $aposta.addClass("js-betCopy");
+      $aposta.find(".js-jogo").text($timeCasa + " X " + $timeFora);
+      $aposta.find(".js-campeonato").text($campeonato);
+      $aposta.find(".js-tipoAposta").text(target.prop("name") + " " + " ("+ target.text() +")");
+
+      return $aposta;
+   }
+
+})();
+
+
+// REMOVER TODAS AS APOSTAS
+(function removeAllBets(){
+
+   $(".js-buttonRemoveAllBets").click(function(){
+      var totalApostas = $(".js-groupAposta").siblings(".panel-heading").children(".badge");
+      var totalValorAposta =  $(".js-totalValorAposta");
+
+      $(".js-groupAposta").children(".js-betCopy").remove();
+      totalApostas.text(0);
+      totalValorAposta.val(0);
+      calculatePossibleBetReturn();
+   });
+
+})();
+
+
+// REMOVER UMA APOSTA
+(function removeBet(){
+
+   $(".js-groupAposta").on('click','.js-buttonRemoveBet', function(){
+      var totalApostas = $(".js-groupAposta").siblings(".panel-heading").children(".badge");
+      var totalValorAposta =  $(".js-totalValorAposta");
+
+      $(this).closest(".js-betCopy").remove();
+      totalApostas.text(parseInt(totalApostas.text()) - 1);
+      totalValorAposta.val(parseFloat(totalValorAposta.val()) - parseFloat($(this).closest(".js-betCopy").find(".js-tipoAposta").text().replace(/([a-z\s\(\)])/ig, "")))
+      calculatePossibleBetReturn();
+   });
+
+})();
+
+// CALCULO DE POSSIVEL RETORNO
+function calculatePossibleBetReturn(){
+
+   if(!isNaN(parseFloat($(".js-inptValorAposta").val().replace(/[^0-9\.\,]/ig,""))) && $(".js-inptValorAposta").val() != ""){
+      var valorAposta = parseFloat($(".js-inptValorAposta").val().replace(",", ".").replace(/[^0-9\.]/ig,""))
+      var totalValorAposta = $(".js-totalValorAposta").val();
+      var possivelRetorno = valorAposta * totalValorAposta;
+
+      $(".js-possivelRetorno").text(" " + possivelRetorno.toFixed(2).replace(".", ",").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"));
+   }else {
+      $(".js-possivelRetorno").text(" 0,00");
+   }
+};
+
+
+// QUANDO OCORRER ALGUMA ALTERAÇÃO NO INPUT DE VALOR DE APOSTA
+(function whenchangeInputBetValue(){
+
+   // QUANDO O IMPUT PERDER O FOCO O VALOR É FORMATADO PARA MOEDA
+   $(".js-inptValorAposta").on('focusout',function(){
+      var valorAposta = parseFloat($(".js-inptValorAposta").val().replace(",", ".").replace(/[^0-9\.]/ig,""))
+
+      if(!isNaN(parseFloat($(".js-inptValorAposta").val().replace(/[^0-9\.\,]/ig,"") ) ) && $(".js-inptValorAposta").val() != ""){
+         $(".js-inptValorAposta").val(valorAposta.toFixed(2).replace(".", ",").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"));
+      }else {
+         $(".js-inptValorAposta").val("");
+      }
+   });
+
+   // QUANDO SE INSERI ALGUM VALOR NO INPUT E A TECLA SOBE O CALCULO DE POSSIVEL RETORNO É FEITO
+   $(".js-inptValorAposta").on('keyup',function(){
+      calculatePossibleBetReturn();
+   });
+
+})();
+
+
+</script>
+
+{% endblock %}

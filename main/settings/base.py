@@ -33,6 +33,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['betsmania.herokuapp.com']
 
+INTERNAL_IPS = ['127.0.0.1']
 
 # Application definition
 
@@ -43,8 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'behave_django',
+    'debug_toolbar',
+    'aloe_django',
     'contas',
+    'partidas',
+    'times',
 ]
 
 MIDDLEWARE = [
@@ -55,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'main.urls'
@@ -144,3 +149,9 @@ MEDIA_ROOT = os.path.join(dirs.PROJECT_DIR, 'media')
 # Deploy Configuration
 if os.environ.get('DEPLOY', False):
     STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+# Test Configuration
+
+GHERKIN_TEST_CLASS = 'aloe_django.TestCase'
+
+GHERKIN_TEST_RUNNER = 'aloe_django.runner.GherkinTestRunner'

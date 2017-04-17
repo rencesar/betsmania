@@ -12,11 +12,11 @@ Funcionalidade: Login no sistema
 		E possuo uma conta cadastrada com dados conforme abaixo:
 			|  NOME             |  USERNAME |  EMAIL               |  SENHA     |
 			|  Anderson Carlos  |  anderson |  anderson@gmail.com  |  senha123  |
-		Quando clico no botão "Fazer Login"
+		Quando clico no link "Login"
 		E preencho os dados de login conforme abaixo:
 			|  USERNAME  |  SENHA     |
 			|  anderson  |  senha123  |
-		E clico no botão "Entrar"
+		E clico no botão "Acessar"
 		Então estárei na página "Login efetuado com sucesso!"
 
 
@@ -26,9 +26,9 @@ Funcionalidade: Login no sistema
 		E possuo uma conta cadastrada com dados conforme abaixo:
 			|  NOME             |  USERNAME |  EMAIL               |  SENHA     |
 			|  Anderson Carlos  |  anderson |  anderson@gmail.com  |  senha123  |
-		Quando clico no botão "Fazer Login"
+		Quando clico no link "Login"
 		E preencho os dados de login conforme abaixo:
 			|  USERNAME  |  SENHA      |
 			|  anderson  |  senha1233  |
-		E clico no botão "Entrar"
+		E clico no botão "Acessar"
 		Então estárei na página "Por favor, entre com um usuário e senha corretos."

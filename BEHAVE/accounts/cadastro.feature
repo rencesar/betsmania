@@ -9,11 +9,11 @@ Funcionalidade: Cadastro no sistema
 	Cenário: Criar uma conta de usuário
 		Dado que acesso a página inicial
 		E que acesso como visitante
-		Quando clico no botão "Criar Conta"
+		Quando clico no link "Cadastrar"
 		E preencho um formulário de cadastro de usuário conforme abaixo:
 			|  NOME             |  USERNAME  |  EMAIL               |  SENHA     |
 			|  Anderson Carlos  |  anderson  |  anderson@gmail.com  |  senha123  |
-		E clico no botão "Criar Conta"
+		E clico no botão "Cadastrar"
 		Então estárei na página "Usuário cadastrado com sucesso!"
 		E terei um usuário "anderson" cadastrado
 
@@ -24,10 +24,10 @@ Funcionalidade: Cadastro no sistema
 			|  Paulo João  |  anderson  |  paulojoao@gmail.com  |
 		E que acesso a página inicial
 		E que acesso como visitante
-		Quando clico no botão "Criar Conta"
+		Quando clico no link "Cadastrar"
 		E preencho um formulário de cadastro de usuário conforme abaixo:
 			|  NOME             |  USERNAME  |  EMAIL               |  SENHA     |
 			|  Anderson Carlos  |  anderson  |  anderson@gmail.com  |  senha123  |
-		E clico no botão "Criar Conta"
+		E clico no botão "Cadastrar"
 		Então estárei na página "Um usuário com este nome de usuário já existe."
 		E não terei usuário chamado "Anderson Carlos"
