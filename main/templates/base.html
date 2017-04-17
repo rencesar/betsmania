@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>BetsMania</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styleBase.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styleLogin.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styleRegister.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styleHome.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar--style navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle navbar-toggle--style collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">BetsMania</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <div role="separator" class="col-sm-1 col-md-3"></div>
+            <ul class="nav navbar-nav navbar-center">
+                <li class="itemMenu"><a href="#" class="itemMenu--a">Jogos</a></li>
+                <li class="itemMenu"><a href="#about" class="itemMenu--a">Apostas</a></li>
+                <li class="itemMenu"><a href="#contact" class="itemMenu--a">Regras</a></li>
+                <li class="itemMenu"><a href="#contact" class="itemMenu--a">Contatos</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                <li class="dropdown userLogged">
+                    <a href="#" class="dropdown-toggle userLogged--a" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user }}<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Perfil</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Sair</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li class="itemMenu--a-btn" ><a class="a-btn" href="{% url 'contas:login' %}"><button type="button" class="btn btn-default btn-default1 navbar-btn col-xs-12">Fazer Login</button></a></li>
+                <li class="itemMenu--a-btn" ><a class="a-btn" href="{% url 'contas:cadastro' %}"><button type="button" class="btn btn-default btn-default1 navbar-btn col-xs-12">Criar Conta</button></a></li>
+                {% endif %}
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="container-fluid">
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+    {% block container %}{% endblock %}
+</div>
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
+<script type="text/javascript">
+       // Open login modal
+       $('#modalLogin').modal('show');
+    </script>
+{% block js %}{% endblock %}
+</body>
+</html>

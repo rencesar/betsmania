@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block container %}
+
+{% for message in messages %}
+{{ message }}
+{% endfor %}
+<div data-show="false" class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="modalLoginLabel">
+ <div class="modal-dialog" role="document">
+  <div class="modal-content">
+   <div class="modal-header modal-header--login">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title " id="modalLoginLabel">Acessar BetsMania</h4>
+   </div>
+   <div class="modal-body modal-body--login">
+    <form class="form-horizontal" id="login" method="POST" action="{{ request.path }}">
+     {% csrf_token %}
+     <div class="form-group">
+
+      <div class="col-sm-offset-1 col-sm-10">
+       <label for="id_username" class="control-label">Usuário</label>
+        <input type="text" name="username" class="form-control" id="id_username" required autofocus maxlength="254">
+      </div>
+     </div>
+     <div class="form-group">
+      <div class="col-sm-offset-1 col-sm-10">
+       <label for="id_password" class="control-label">Senha</label>
+       <input type="password" name="password" class="form-control" id="id_password" required>
+      </div>
+     </div>
+     <div class="form-group">
+      <div class="col-sm-offset-1 col-sm-10">
+       <div class="checkbox">
+        <label>
+         <input type="checkbox"> Me lembre
+        </label>
+       </div>
+      </div>
+     </div>
+     <div class="form-group">
+      <div class="col-xs-offset-1 col-sm-offset-1 col-sm-10">
+       <button type="submit" class="btn col-xs-offset-1 col-xs-9 col-sm-10 btn-default btn-entrar">Entrar</button>
+      </div>
+     </div>
+    </form>
+   </div>
+  </div>
+ </div>
+</div>
+{% endblock %}

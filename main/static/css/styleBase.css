@@ -1,0 +1,181 @@
+body{
+ background-color: rgba(95, 121, 140, 0.17);
+ overflow-y: scroll;
+}
+
+.navbar--style{
+   background-color: #3C4D59 !important;
+   border-color: #5F798C !important;
+
+}
+
+.btn-default1{
+
+   padding: 0 12px !important;
+   border-color: transparent !important;
+   color: #5F798C !important;
+   background-color: #fff !important;
+   font-weight: bold;
+   height: 34px;
+
+}
+
+.btn-default1:hover,
+.btn-default1:active{
+
+   border-color: #fff !important;
+
+}
+
+.btn-default1:hover,
+.btn-default1:active,
+.userLogged--a:focus,
+.userLogged--a:active,
+.userLogged--a{
+
+   color:#fff !important;
+   background-color: #5F798C !important;
+
+}
+
+.navbar-brand{
+
+   color: #D8D888 !important;
+
+}
+
+.itemMenu{
+   border-bottom: 2px solid transparent;
+}
+
+.itemMenu:hover{
+
+   background-color: #5F798C !important;
+   border-bottom-color: #fff;
+
+}
+
+.itemMenu--a,
+.itemMenu--a:focus,
+.itemMenu:hover> .itemMenu--a{
+
+   color: #fff !important;
+   cursor: pointer;
+
+}
+
+.userLogged li>a,
+.userLogged li:hover>a{
+
+   color: #5F798C !important;
+
+}
+
+.a-btn{
+   padding: 0 5px!important;
+}
+
+.itemMenu--a-btn{
+
+   height: 25px !important;
+
+}
+
+.itemMenu--a-btn:hover{
+
+  background-color: transparent !important;
+
+}
+
+.userLogged--a{
+
+    border:1px solid transparent !important;
+    border-left-color: #fff !important;
+    border-right-color: #fff !important;
+    font-weight: bold;
+
+}
+
+.btn-border,
+.input-border{
+   border: 1px solid #3C4D59 !important;
+}
+
+@media screen and (max-width: 767px) {
+
+   #navbar{
+
+      border-top: 1px solid rgba(255,255,255,.4);
+
+   }
+
+   .itemMenu,
+   .nav .userLogged li{
+
+      padding: 0 15px;
+      margin-bottom: 4px;
+
+   }
+
+   .itemMenu--a,
+   .nav .userLogged  li  a{
+
+       border-bottom: 1px solid rgba(255,255,255,.3);
+       color: #fff !important;
+
+   }
+
+   .itemMenu:hover{
+
+      background-color: transparent !important;
+
+   }
+
+   .userLogged >  .userLogged--a,
+   .userLogged--a:focus,
+   .userLogged--a:active,
+   .itemMenu:hover .userLogged--a{
+
+      margin: 0 15px !important;
+      padding: 15px 15px !important;
+      background-color:#fff  !important;
+      color: #5F798C !important;
+      text-align: center;
+
+   }
+
+   .btn-default1{
+
+      height: 35px;
+      margin: 4px 0;
+      padding: 0px 12px !important;
+      color: #5F798C !important;
+      font-weight: bold;
+
+   }
+
+   .navbar-toggle--style{
+
+      border-color: #fff !important;
+
+   }
+
+   .navbar-toggle--style:hover > span,
+   .navbar-toggle--style:focus > span{
+
+      background-color: #5F798C !important;
+
+   }
+
+   .navbar-toggle--style > span{
+
+      background-color: #fff !important;
+
+   }
+
+   .divider{
+      display: none !important;
+   }
+
+
+}

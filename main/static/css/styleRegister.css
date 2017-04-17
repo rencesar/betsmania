@@ -1,0 +1,19 @@
+.page-header--style h1,
+.section-cadastrar form{
+   color: #3C4D59;
+}
+
+.section-cadastrar {
+   display: flex !important;
+   display: -webkit-flex !important;
+   display: -ms-flex !important;
+   justify-content: center;
+   -webkit-justify-content: center;
+   -ms-justify-content: center;
+   align-items: center;
+   -webkit-align-items: center;
+   -ms-align-items: center;
+  margin-top: 100px;
+  padding-bottom: 20px;
+  border-radius: 5px;
+}
