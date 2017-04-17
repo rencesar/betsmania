@@ -13,6 +13,7 @@ test:
         - python manage.py behave
 
 production:
+    type: deploy
     script:
         - apt-get update -qy
         - apt-get install gem -y
