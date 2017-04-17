@@ -1,9 +1,11 @@
 import os
-import pdb
+import ipdb
+
 from behave import runner
+from splinter import Browser
+
 from django.core.management import call_command
 from django.utils.translation import activate
-from splinter import Browser
 
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'main.settings'
@@ -32,13 +34,10 @@ def before_all(context):
     context.server_url = 'http://localhost:8000'
 
 
-# def before_scenario(context, scenario):
-#     call_command('flush', interactive=False, verbosity=0)
-
-
 def after_step(context, step):
     if BEHAVE_DEBUG_ON_ERROR and step.status == "failed":
-        pdb.post_mortem(step.exc_traceback)
+        ipdb.post_mortem(step.exc_traceback)
+
 
 def after_all(context):
     context.browser.quit()

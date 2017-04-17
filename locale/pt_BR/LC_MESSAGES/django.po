@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-09 01:16-0300\n"
+"POT-Creation-Date: 2017-04-17 03:45-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,3 +23,36 @@ msgstr "Login efetuado com sucesso!"
 
 msgid "Registered user successful!"
 msgstr "Usuário cadastrado com sucesso!"
+
+msgid "Home team"
+msgstr "Time de casa"
+
+msgid "Visiting team"
+msgstr "Time visitante"
+
+msgid "Match date"
+msgstr "Data da partida"
+
+msgid "Home team win"
+msgstr "Vitória time de casa"
+
+msgid "Draw"
+msgstr "Empate"
+
+msgid "Visiting team win"
+msgstr "Vitória time visitante"
+
+msgid "League"
+msgstr "Liga"
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "Country"
+msgstr "País"
+
+msgid "Description"
+msgstr "Descrição"
+
+msgid "Stadium"
+msgstr "Estadio"
