@@ -1,4 +1,4 @@
-image: python:3.6
+image: python:3.5
 
 test:
     services:
@@ -13,7 +13,6 @@ test:
         - python manage.py behave
 
 production:
-    type: deploy
     script:
         - apt-get update -qy
         - apt-get install -y ruby-dev
