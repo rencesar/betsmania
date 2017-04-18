@@ -46,12 +46,16 @@
                     <ul class="dropdown-menu">
                         <li><a href="#">Perfil</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#">Sair</a></li>
+                        <li><a href="{% url 'contas:logout' %}">Sair</a></li>
                     </ul>
                 </li>
                 {% else %}
-                <li class="itemMenu--a-btn" ><a class="a-btn" href="{% url 'contas:login' %}"><button type="button" class="btn btn-default btn-default1 navbar-btn col-xs-12">Fazer Login</button></a></li>
-                <li class="itemMenu--a-btn" ><a class="a-btn" href="{% url 'contas:cadastro' %}"><button type="button" class="btn btn-default btn-default1 navbar-btn col-xs-12">Criar Conta</button></a></li>
+                <li class="itemMenu--a-btn" ><a class="a-btn" href="{% url 'contas:login' %}">
+                    <button type="button" class="btn btn-default btn-default1 navbar-btn col-xs-12">Fazer Login</button>
+                </a></li>
+                <li class="itemMenu--a-btn" ><a class="a-btn" href="{% url 'contas:cadastro' %}">
+                    <button type="button" class="btn btn-default btn-default1 navbar-btn col-xs-12">Criar Conta</button>
+                </a></li>
                 {% endif %}
             </ul>
         </div><!--/.nav-collapse -->
@@ -59,22 +63,30 @@
 </nav>
 
 <div class="container-fluid">
-    {% for message in messages %}
-        {{ message }}
-    {% endfor %}
     {% block container %}{% endblock %}
 </div>
-
+<div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/bootstrap-notify.js' %}"></script>
+    {% if messages %}
+    {% for message in messages %}
+    <script>
+                $(document).ready(function() {
+                    $.notify({
+                        message: '{{ message }}'
+                    },{
+                        type: '{{ message.tags }}'
+                    });
+                });
+            </script>
+    {% endfor %}
+    {% endif %}
+</div>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="{% static 'js/bootstrap.js' %}"></script>
-<script type="text/javascript">
-       // Open login modal
-       $('#modalLogin').modal('show');
-    </script>
 {% block js %}{% endblock %}
 </body>
 </html>

@@ -29,7 +29,6 @@ def click_on_button(step, link):
 
 @step(u'estárei na página "([^"]*)"')
 def in_page_with_message(step, message):
-    print(message)
     assert_true(world.browser.is_text_present(message))
 
 

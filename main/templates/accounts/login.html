@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 
 {% block container %}
-
-{% for message in messages %}
-{{ message }}
-{% endfor %}
 <div data-show="false" class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="modalLoginLabel">
  <div class="modal-dialog" role="document">
   <div class="modal-content">
@@ -17,15 +13,25 @@
      {% csrf_token %}
      <div class="form-group">
 
-      <div class="col-sm-offset-1 col-sm-10">
+      <div class="col-sm-offset-1 col-sm-10 {% if form.username.errors %} has-error{% endif %}">
        <label for="id_username" class="control-label">Usuário</label>
-        <input type="text" name="username" class="form-control" id="id_username" required autofocus maxlength="254">
+       <input type="text" name="username" class="form-control" id="id_username" required autofocus maxlength="254">
+       {% if form.username.errors %}
+        {% for error in form.username.errors %}
+         <span class="help-inline">{{ error }}</span>
+        {% endfor %}
+       {% endif %}
       </div>
      </div>
      <div class="form-group">
-      <div class="col-sm-offset-1 col-sm-10">
+      <div class="col-sm-offset-1 col-sm-10{% if form.password.errors %} has-error{% endif %}">
        <label for="id_password" class="control-label">Senha</label>
        <input type="password" name="password" class="form-control" id="id_password" required>
+       {% if form.password.errors %}
+        {% for error in form.password.errors %}
+         <span class="help-inline">{{ error }}</span>
+        {% endfor %}
+       {% endif %}
       </div>
      </div>
      <div class="form-group">

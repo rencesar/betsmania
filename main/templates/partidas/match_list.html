@@ -17,28 +17,31 @@
 
          <!-- TABELA COM OS JOGOS DO CAMPEONATO -->
          <table class="table table-bordered ">
-            <tr class="info text-custom">
-               <th class="text-center">Data</th>
-               <th class="text-center">Time Casa</th>
-               <th class="text-center">Time Fora</th>
-               <th class="text-center">Vitória Casa</th>
-               <th class="text-center">Vitória Fora</th>
-               <th class="text-center">Empate</th>
-               <th class="text-center">Extras</th>
-            </tr>
-
-            <!-- CADA TR É UM JOGO -->
-            {% for match in matches %}
-            <tr class="js-infoApostaJogo" aria-label="Informação da Aposta do Jogo">
-               <td class="text-center js-jData">05/05/2017</td>
-               <td class="text-center js-jTimeCasa">{{ match.home_team }}</td>
-               <td class="text-center js-jTimeFora">{{ match.visiting_team }}</td>
-               <td class="text-center js-jVitoriaCasa"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Casa">{{ match.home_win }}</button></td>
-               <td class="text-center js-jVitoriaFora"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Fora">{{ match.draw }}</button></td>
-               <td class="text-center js-jEmpate"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Empate">{{ match.visiting_win }}</button></td>
-               <td class="text-center js-jExtras"><button type="button" class="btn btn-default btn-xs" name="Extras"><i class="fa fa-plus" aria-hidden="true"></i></button></td>
-            </tr>
-            {% endfor %}
+            <thead>
+               <tr class="info text-custom">
+                  <th class="text-center">Data</th>
+                  <th class="text-center">Time Casa</th>
+                  <th class="text-center">Time Fora</th>
+                  <th class="text-center">Vitória Casa</th>
+                  <th class="text-center">Empate</th>
+                  <th class="text-center">Vitória Fora</th>
+                  <th class="text-center">Extras</th>
+               </tr>
+            </thead>
+            <tbody>
+               <!-- CADA TR É UM JOGO -->
+               {% for match in matches %}
+               <tr class="js-infoApostaJogo" aria-label="Informação da Aposta do Jogo">
+                  <td data-field="date" class="text-center js-jData">{{ match.date|date:'d/m/Y à\s H:i' }}</td>
+                  <td data-field="home_team" class="text-center js-jTimeCasa">{{ match.home_team }}</td>
+                  <td data-field="visiting_team" class="text-center js-jTimeFora">{{ match.visiting_team }}</td>
+                  <td data-field="home_win" class="text-center js-jVitoriaCasa"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Casa">{{ match.home_win|floatformat:2 }}</button></td>
+                  <td data-field="draw" class="text-center js-jEmpate"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Empate">{{ match.draw|floatformat:2 }}</button></td>
+                  <td data-field="visiting_win" class="text-center js-jVitoriaFora"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Fora">{{ match.visiting_win|floatformat:2 }}</button></td>
+                  <td class="text-center js-jExtras"><button type="button" class="btn btn-default btn-xs" name="Extras"><i class="fa fa-plus" aria-hidden="true"></i></button></td>
+               </tr>
+               {% endfor %}
+            </tbody>
          </table>
       </div>
    {% endfor %}
