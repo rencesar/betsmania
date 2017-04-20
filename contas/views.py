@@ -1,7 +1,8 @@
 from django.contrib import messages
-from django.contrib.auth import login as auth_login
+from django.contrib.auth import views as auth_user
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views import generic
 
@@ -11,12 +12,12 @@ class LoginView(generic.FormView):
     template_name = 'accounts/login.html'
 
     def form_valid(self, form):
-        auth_login(self.request, form.get_user())
+        auth_user.login(self.request, form.get_user())
         return super(LoginView, self).form_valid(form)
 
     def get_success_url(self):
         messages.success(self.request, _('Login successful!'))
-        return self.request.path
+        return reverse('partidas:home')
 
 
 class CreateUserView(generic.CreateView):
@@ -26,4 +27,8 @@ class CreateUserView(generic.CreateView):
 
     def get_success_url(self):
         messages.success(self.request, _('Registered user successful!'))
-        return self.request.path
+        return reverse('partidas:home')
+
+
+def logout(request):
+    return auth_user.logout(request, next_page='partidas:home')

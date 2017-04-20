@@ -10,7 +10,7 @@ test:
         - ln -s /usr/bin/nodejs /usr/bin/node
         - npm install -g phantomjs
         - python manage.py collectstatic --noinput
-        - python manage.py behave
+        - python manage.py harvest -v 3
 
 production:
     type: deploy

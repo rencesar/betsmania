@@ -13,7 +13,7 @@ Funcionalidade: Cadastro no sistema
 		E preencho um formulário de cadastro de usuário conforme abaixo:
 			|  NOME             |  USERNAME  |  EMAIL               |  SENHA     |
 			|  Anderson Carlos  |  anderson  |  anderson@gmail.com  |  senha123  |
-		E clico no botão "Criar Conta"
+		E clico no botão "Cadastrar"
 		Então estárei na página "Usuário cadastrado com sucesso!"
 		E terei um usuário "anderson" cadastrado
 
@@ -28,6 +28,6 @@ Funcionalidade: Cadastro no sistema
 		E preencho um formulário de cadastro de usuário conforme abaixo:
 			|  NOME             |  USERNAME  |  EMAIL               |  SENHA     |
 			|  Anderson Carlos  |  anderson  |  anderson@gmail.com  |  senha123  |
-		E clico no botão "Criar Conta"
+		E clico no botão "Cadastrar"
 		Então estárei na página "Um usuário com este nome de usuário já existe."
 		E não terei usuário chamado "Anderson Carlos"

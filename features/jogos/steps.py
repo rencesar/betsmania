@@ -4,19 +4,24 @@ from django.utils import timezone
 from nose.tools import assert_equals, assert_true
 
 from partidas.factories import MatchFactory
+from times.factories import TeamFactory, LeagueFactory
 
 
 @step('que existem os seguintes jogos cadastrados no sistema')
 def define_games_to_challenger(step):
     for row in step.hashes:
         date = timezone.make_aware(datetime.strptime(row['DATA'], '%d/%m/%Y às %H:%M'))
+        league = LeagueFactory(name=row['LIGA'])
+        home = TeamFactory(name=row['TIME CASA'])
+        visiting = TeamFactory(name=row['TIME FORA'])
         MatchFactory(
-            home_team=row['TIME CASA'],
-            visiting_team=row['TIME FORA'],
+            home_team=home,
+            visiting_team=visiting,
             date=date,
             home_win=row['CASA'],
             draw=row['EMPATE'],
             visiting_win=row['FORA'],
+            league=league
         )
 
 
@@ -32,8 +37,8 @@ def matchs_on_page(step):
 
     for row, data in zip(rows, step.hashes):
         assert_equals(f(row, 'date'), data['DATA'])
-        assert_equals(f(row, 'house_team'), data['TIME CASA'])
+        assert_equals(f(row, 'home_team'), data['TIME CASA'])
         assert_equals(f(row, 'visiting_team'), data['TIME FORA'])
-        assert_equals(f(row, 'house_win'), data['CASA'])
-        assert_equals(f(row, 'draw'), data['EMPATE'])
-        assert_equals(f(row, 'visiting_win'), data['FORA'])
+        assert_equals(f(row, 'home_win').replace(',', '.'), data['CASA']) # TODO separar no html decimal por ponto e não por virgula
+        assert_equals(f(row, 'draw').replace(',', '.'), data['EMPATE'])
+        assert_equals(f(row, 'visiting_win').replace(',', '.'), data['FORA'])

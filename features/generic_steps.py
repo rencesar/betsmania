@@ -29,11 +29,10 @@ def click_on_button(step, link):
 
 @step(u'estárei na página "([^"]*)"')
 def in_page_with_message(step, message):
-    print(message)
     assert_true(world.browser.is_text_present(message))
 
 
-@step('que hoje é dia (\d{2})/(\d{2})/(\d{4})(?: às (\d{2}):(\d{2}))?')
+@step('hoje é dia (\d{2})/(\d{2})/(\d{4})(?: às (\d{2}):(\d{2}))?')
 def set_defined_date(step, *date):
     pass
     # context.dateformat = get_datetime_django(date).astimezone(pytz.timezone('America/Recife'))
