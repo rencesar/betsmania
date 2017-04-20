@@ -8,6 +8,7 @@ from django.views.static import serve
 urlpatterns = [
     url(r'^', include('partidas.urls', namespace='partidas')),
     url(r'^usuario/', include('contas.urls', namespace='contas')),
+    url(r'^apostas/', include('apostas.urls', namespace='apostas')),
     url(r'^admin/', admin.site.urls),
 ]
 

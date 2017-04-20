@@ -2,135 +2,113 @@
 
 {% block container %}
 <div class="col-md-12 home-bar">
-   <ul class="list-group">
-      <li class="list-group-item bg-custom"><span class="glyphicon glyphicon-search"></span> <strong>Pesquisar</strong></li>
-   </ul>
+  <ul class="list-group">
+    <li class="list-group-item bg-custom"><span class="glyphicon glyphicon-search"></span> <strong>Pesquisar</strong></li>
+  </ul>
 
 </div>
 <div class="col-md-8" >
 
-   <!-- PAINEL COM UM CAMPEONATO -->
-   {% for league, matches in object_list.items %}
-      <div class="panel panel-default">
+  <!-- PAINEL COM UM CAMPEONATO -->
+  {% for league, matches in object_list.items %}
+    {% if matches %}
+    <div class="panel panel-default">
 
-         <div class="panel-heading bg-custom js-jCampeonato"><i class="fa fa-trophy" aria-hidden="true"></i> <strong>{{ league }}</strong></div>
+      <div class="panel-heading bg-custom js-jCampeonato"><i class="fa fa-trophy" aria-hidden="true"></i> <strong>{{ league }}</strong></div>
 
-         <!-- TABELA COM OS JOGOS DO CAMPEONATO -->
-         <table class="table table-bordered ">
-            <thead>
-               <tr class="info text-custom">
-                  <th class="text-center">Data</th>
-                  <th class="text-center">Time Casa</th>
-                  <th class="text-center">Time Fora</th>
-                  <th class="text-center">Vitória Casa</th>
-                  <th class="text-center">Empate</th>
-                  <th class="text-center">Vitória Fora</th>
-                  <th class="text-center">Extras</th>
-               </tr>
-            </thead>
-            <tbody>
-               <!-- CADA TR É UM JOGO -->
-               {% for match in matches %}
-               <tr class="js-infoApostaJogo" aria-label="Informação da Aposta do Jogo">
-                  <td data-field="date" class="text-center js-jData">{{ match.date|date:'d/m/Y à\s H:i' }}</td>
-                  <td data-field="home_team" class="text-center js-jTimeCasa">{{ match.home_team }}</td>
-                  <td data-field="visiting_team" class="text-center js-jTimeFora">{{ match.visiting_team }}</td>
-                  <td data-field="home_win" class="text-center js-jVitoriaCasa"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Casa">{{ match.home_win|floatformat:2 }}</button></td>
-                  <td data-field="draw" class="text-center js-jEmpate"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Empate">{{ match.draw|floatformat:2 }}</button></td>
-                  <td data-field="visiting_win" class="text-center js-jVitoriaFora"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Fora">{{ match.visiting_win|floatformat:2 }}</button></td>
-                  <td class="text-center js-jExtras"><button type="button" class="btn btn-default btn-xs" name="Extras"><i class="fa fa-plus" aria-hidden="true"></i></button></td>
-               </tr>
-               {% endfor %}
-            </tbody>
-         </table>
-      </div>
-   {% endfor %}
-
-   <!-- AREA PARA NAVEGAÇÃO ENTRE AS PAGINAS DE CAMPEONATOS -->
-   <nav aria-label="Page navigation" class="navegation-style">
-      <ul class="pagination">
-
-         {% if page_obj.has_previous %}
-            <li>
-               <a href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-               </a>
-            </li>
-         {% endif %}
-
-         {% for page in paginatior.page_range %}
-            <li {% if page_obj.number == page %} class="active" {% endif %}>
-               <a href="?page={{ page }}">{{ page }}</a>
-            </li>
-         {% endfor %}
-
-         {% if page_obj.has_next %}
-         <li>
-            <a href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-               <span aria-hidden="true">&raquo;</span>
-            </a>
-         </li>
-         {% endif %}
-      </ul>
-   </nav>
+      <!-- TABELA COM OS JOGOS DO CAMPEONATO -->
+      <table class="table table-bordered ">
+        <thead>
+        <tr class="info text-custom">
+          <th class="text-center">Data</th>
+          <th class="text-center">Time Casa</th>
+          <th class="text-center">Time Fora</th>
+          <th class="text-center">Vitória Casa</th>
+          <th class="text-center">Empate</th>
+          <th class="text-center">Vitória Fora</th>
+          <th class="text-center">Extras</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- CADA TR É UM JOGO -->
+        {% for match in matches %}
+          <tr class="js-infoApostaJogo" aria-label="Informação da Aposta do Jogo">
+            <td id="bet-pk" class="hidden">{{ match.pk }}</td>
+            <td data-field="date" class="text-center js-jData">{{ match.date|date:'d/m/Y à\s H:i' }}</td>
+            <td data-field="home_team" class="text-center js-jTimeCasa">{{ match.home_team }}</td>
+            <td data-field="visiting_team" class="text-center js-jTimeFora">{{ match.visiting_team }}</td>
+            <td data-field="home_win" class="text-center js-jVitoriaCasa"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Casa">{{ match.home_win|floatformat:2 }}</button></td>
+            <td data-field="draw" class="text-center js-jEmpate"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Empate">{{ match.draw|floatformat:2 }}</button></td>
+            <td data-field="visiting_win" class="text-center js-jVitoriaFora"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Fora">{{ match.visiting_win|floatformat:2 }}</button></td>
+            <td class="text-center js-jExtras"><button type="button" class="btn btn-default btn-xs" name="Extras"><i class="fa fa-plus" aria-hidden="true"></i></button></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+  {% endfor %}
 </div>
 
 <div class="col-md-4">
-   <div class="panel panel-default">
+  <div class="panel panel-default">
 
-      <div class="panel-heading bg-custom"><i class="fa fa-money" aria-hidden="true"></i><strong> Aposta</strong></div>
+    <div class="panel-heading bg-custom"><i class="fa fa-money" aria-hidden="true"></i><strong> Aposta</strong></div>
 
-      <div class="panel-body">
+    <div class="panel-body">
 
-         <!-- AREA COM INPUT PARA ENTRADA DO VALOR DA APOSTA -->
-         <label for="basic-url" class="text-custom">Valor da Aposta *</label>
-         <div class="input-group">
-            <span class="input-group-addon text-success">$</span>
-            <input type="text" class="form-control js-inptValorAposta" aria-label="Valor da Aposta" autofocus>
-         </div>
-         <div role="separator" class="form-group"></div>
+      <!-- AREA COM INPUT PARA ENTRADA DO VALOR DA APOSTA -->
+      <label for="basic-url" class="text-custom">Valor da Aposta *</label>
+      <div class="input-group">
+        <span class="input-group-addon text-success">$</span>
+        <input type="text" class="form-control js-inptValorAposta" aria-label="Valor da Aposta" autofocus>
+      </div>
+      <div role="separator" class="form-group"></div>
 
-         <!-- AREA QUE INFORMA POSSIVEL RETORNO -->
-         <div class="alert alert-info text-center" role="alert">
-            <label>Possivel Retorno</label>
-            <p>R$<span class="js-possivelRetorno"> 0,00</span></p>
-         </div>
-
-         <!-- REMOVER TODOS AS APOSTAS -->
-         <div class="btn-group btn-group-justified" >
-            <div class="btn-group">
-               <button type="button" class="btn btn-danger js-buttonRemoveAllBets"><strong><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remover Todas as Apostas</strong></button>
-            </div>
-         </div>
-         <div role="separator" class="form-group"></div>
-
-         <!-- PAINEL COM GRUPO DE APOSTAS -->
-         <div class="panel panel-danger">
-
-            <!-- TITUTO COM O NUMERO TOTAL DE APOSTAS FEITAS -->
-            <div class="panel-heading text-center"><strong>Total de Apostas: </strong><span class="badge"> 0 </span></div>
-
-            <ul class="list-group js-groupAposta" role="group" aria-label="Grupo de Aposta">
-               <!-- INPUT HIDDEN QUE GUARDA O VALOR TOTAL DA SOMA DAS APOSTAS -->
-               <input type="hidden" class="js-totalValorAposta" name="totalValorAposta" value="0">
-
-               <!-- AREA DE UMA APOSTA -->
-               <li class="list-group-item border-danger hidden js-aposta">
-                  <p class="text-danger js-jogo"></p>
-                  <p class="text-danger js-campeonato"></p>
-                  <p class="text-danger js-dataHora"> 05/05/2017 16:00:00</p>
-                  <p class="text-danger js-tipoAposta"></p>
-                  <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                     <div class="btn-group" role="group">
-                        <button type="button" class="btn bg-danger border-danger2 text-danger2 js-buttonRemoveBet"><strong><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remover essa Aposta</strong></button>
-                     </div>
-                  </div>
-               </li>
-            </ul>
-         </div>
+      <!-- AREA QUE INFORMA POSSIVEL RETORNO -->
+      <div class="alert alert-info text-center" role="alert">
+        <label>Possivel Retorno</label>
+        <p>R$<span class="js-possivelRetorno"> 0,00</span></p>
       </div>
 
-   </div>
+      <!-- REMOVER TODOS AS APOSTAS -->
+      <div class="btn-group btn-group-justified" >
+        <div class="btn-group">
+          <p><button type="button" id="salve-bets" class="btn btn-success"><strong>Salvar as apostas</strong></button></p>
+          <button type="button" class="btn btn-danger js-buttonRemoveAllBets"><strong><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remover todas as apostas</strong></button>
+        </div>
+      </div>
+      <div role="separator" class="form-group"></div>
+
+      <!-- PAINEL COM GRUPO DE APOSTAS -->
+      <div class="panel panel-danger">
+
+        <!-- TITUTO COM O NUMERO TOTAL DE APOSTAS FEITAS -->
+        <div class="panel-heading text-center"><strong>Total de Apostas: </strong><span class="badge"> 0 </span></div>
+
+        <ul class="list-group js-groupAposta" role="group" aria-label="Grupo de Aposta">
+          <!-- INPUT HIDDEN QUE GUARDA O VALOR TOTAL DA SOMA DAS APOSTAS -->
+          <input type="hidden" class="js-totalValorAposta" name="totalValorAposta" value="0">
+
+          <!-- AREA DE UMA APOSTA -->
+          <li class="list-group-item border-danger hidden js-aposta text-danger">
+            <p id="bet-pk-done" class="hidden"></p>
+            <p id="bet-type-done" class="hidden"></p>
+            <p class="js-jogo"></p>
+            <p class="js-campeonato"></p>
+            <p class="js-dataHora"></p>
+            <span class="js-tipoAposta"></span><strong id="bet-value-done"></strong> <!--Resolver problema quebra de linha-->
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+              <div class="btn-group" role="group">
+                <button type="button" class="btn bg-danger border-danger2 text-danger2 js-buttonRemoveBet"><strong><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remover essa Aposta</strong></button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
 </div>
 {% endblock %}
 
@@ -149,23 +127,28 @@
 
       $(".js-groupAposta").append(newBet($this));
       totalApostas.text(parseInt(totalApostas.text()) + 1);
-      totalValorAposta.val(parseFloat(totalValorAposta.val()) + parseFloat($this.text()));
+      totalValorAposta.val(parseFloat(totalValorAposta.val()) + parseFloat($this.text().replace(",", ".")));
       calculatePossibleBetReturn();
    });
 
    function newBet(target){
       var $aposta = $(".js-aposta").clone();
+      var $pk = target.parent().siblings("#bet-pk").text();
+      var $data = target.parent().siblings(".js-jData").text();
       var $timeCasa = target.parent().siblings(".js-jTimeCasa").text();
       var $timeFora = target.parent().siblings(".js-jTimeFora").text();
       var $campeonato = target.closest(".table").siblings(".js-jCampeonato").text();
 
-
       $aposta.removeClass("js-aposta");
       $aposta.removeClass("hidden");
       $aposta.addClass("js-betCopy");
+      $aposta.find("#bet-pk-done").text($pk);
       $aposta.find(".js-jogo").text($timeCasa + " X " + $timeFora);
       $aposta.find(".js-campeonato").text($campeonato);
-      $aposta.find(".js-tipoAposta").text(target.prop("name") + " " + " ("+ target.text() +")");
+      $aposta.find(".js-dataHora").text($data);
+      $aposta.find("#bet-type-done").text(target.closest("td").data("field"));
+      $aposta.find(".js-tipoAposta").text(target.prop("name") + " ");
+      $aposta.find("#bet-value-done").text("("+ target.text() +")");
 
       return $aposta;
    }
@@ -186,6 +169,35 @@
       calculatePossibleBetReturn();
    });
 
+})();
+
+
+// SALVAR UMA APOSTA
+(function saveBets(){
+  $("#salve-bets").click(function(){
+      event.preventDefault();
+      var $painel = $(this).closest('.panel-body').find('.js-betCopy');
+      var data = {};
+      $painel.each(function(){
+        var pk = $(this).find('#bet-pk-done').text();
+        var type = $(this).find('#bet-type-done').text();
+        data[pk] = type;
+      });
+      var betsvalue = $(".js-inptValorAposta").val();
+      $.ajax({
+        url: '{% url 'apostas:realizar-aposta' %}',
+        data: {
+            'data': JSON.stringify(data),
+            'betsvalue': betsvalue,
+        },
+        success: function (data) {
+          console.log(data.messages);
+        },
+        error: function(data){
+            console.log(data);
+        },
+      });
+  });
 })();
 
 

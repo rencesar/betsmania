@@ -11,6 +11,11 @@
    <div class="modal-body modal-body--login">
     <form class="form-horizontal" id="login" method="POST" action="{{ request.path }}">
      {% csrf_token %}
+
+     {% for error in form.non_field_errors %}
+       <div class="alert alert-danger">{{ error }}</div>
+     {% endfor %}
+
      <div class="form-group">
 
       <div class="col-sm-offset-1 col-sm-10 {% if form.username.errors %} has-error{% endif %}">

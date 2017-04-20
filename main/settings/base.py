@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'contas',
     'partidas',
     'times',
+    'apostas',
 ]
 
 MIDDLEWARE = [
