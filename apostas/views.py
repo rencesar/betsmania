@@ -38,7 +38,7 @@ class BetCreateView(generic.View):
         '''
         Cria aposta com dados passado pelo usuario na view
         '''
-        self.model.objects.create_with_code(
+        self.model.objects.create(
             user=self.user, match=match,
             value=self.value*float(getattr(match, type)),
             type=_(type)
