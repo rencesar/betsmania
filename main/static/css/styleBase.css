@@ -6,17 +6,28 @@ body{
 .navbar--style{
    background-color: #3C4D59 !important;
    border-color: #5F798C !important;
+   padding: 0 10px;
+}
 
+.divider-row{
+   width: 20%;
+   min-height: 1px;
+   float: left;
+}
+
+.navbar-right{
+   margin: 0 !important;
 }
 
 .btn-default1{
 
-   padding: 0 12px !important;
+   padding: 0 7px !important;
    border-color: transparent !important;
    color: #5F798C !important;
    background-color: #fff !important;
    font-weight: bold;
-   height: 34px;
+   font-size: 12px !important;
+   min-height: 34px;
 
 }
 
@@ -31,7 +42,8 @@ body{
 .btn-default1:active,
 .userLogged--a:focus,
 .userLogged--a:active,
-.userLogged--a{
+.userLogged--a,
+.input-login{
 
    color:#fff !important;
    background-color: #5F798C !important;
@@ -41,17 +53,6 @@ body{
 .navbar-brand{
 
    color: #D8D888 !important;
-
-}
-
-.itemMenu{
-   border-bottom: 2px solid transparent;
-}
-
-.itemMenu:hover{
-
-   background-color: #5F798C !important;
-   border-bottom-color: #fff;
 
 }
 
@@ -72,12 +73,12 @@ body{
 }
 
 .a-btn{
-   padding: 0 5px!important;
+   padding: 10px 5px 0px 0px !important;
 }
 
 .itemMenu--a-btn{
 
-   height: 25px !important;
+   min-height: 25px !important;
 
 }
 
@@ -93,13 +94,87 @@ body{
     border-left-color: #fff !important;
     border-right-color: #fff !important;
     font-weight: bold;
+    padding: 0 !important;
 
+}
+
+.btn-entrar{
+   background-color: #D8D888 !important;
+   color:#3C4D59 !important;
+   border: 1px solid transparent;
+   border-radius: 3px;
+   padding: 2px 4px;
 }
 
 .btn-border,
 .input-border{
+
    border: 1px solid #3C4D59 !important;
 }
+
+.form-login{
+   padding: 3px 12px !important;
+}
+
+.form-group .input-login,
+.input-login,
+.btn-entrar{
+   position: relative;
+   font-size: 11px;
+   font-weight: normal;
+   margin: 2px 0;
+}
+
+.input-login{
+   padding: 2px 4px;
+   border: 1px solid #5F798C;
+   background-color: #5F798C !important;
+   color:#fff !important;
+}
+
+.input-login::-webkit-input-placeholder {
+   color: #3C4D59;
+}
+
+.input-login:-moz-placeholder { /* Firefox 18- */
+   color: #3C4D59;
+}
+
+.input-login::-moz-placeholder {  /* Firefox 19+ */
+   color: #3C4D59;
+}
+
+.input-login:-ms-input-placeholder {
+   color: #3C4D59;
+}
+
+.form-esqueciSenha{
+   float: right;
+   padding: 0 !important;
+}
+
+.a-registrar,
+.a-registrar:hover,
+.a-registrar:visited,
+.a-registrar:link
+.a-esqueciSenha,
+.a-esqueciSenha:hover,
+.a-esqueciSenha:visited,
+.a-esqueciSenha:link{
+   color: #D8D888;
+   font-size: 11px;
+}
+
+.form-esqueciSenha,
+.form-registrar{
+
+   margin-bottom: 4px !important;
+}
+
+.foto-perfil{
+   width: 50px;
+}
+
 
 @media screen and (max-width: 767px) {
 
@@ -146,7 +221,7 @@ body{
 
    .btn-default1{
 
-      height: 35px;
+      min-height: 35px;
       margin: 4px 0;
       padding: 0px 12px !important;
       color: #5F798C !important;
@@ -177,5 +252,61 @@ body{
       display: none !important;
    }
 
+   .divider-row{
+      display: none;
+   }
+
+   .form-esqueciSenha{
+      margin-right: 5px;
+   }
+
+   .form-registrar{
+      float: left;
+   }
+
+   .form-esqueciSenha,
+   .form-registrar{
+      width: 49%;
+      padding: 0 !important;
+      padding: 0 20px;
+      margin: 4px 0;
+      text-align: center;
+   }
+
+}
+
+@media screen and (max-width: 1050px) {
+   .divider-row{
+      width: 13%;
+   }
+
+}
+
+@media screen and (max-width: 930px) {
+   .divider-row{
+      width: 8%;
+   }
+
+}
+
+@media (min-width: 768px) and (max-width: 874px) {
+
+   .a-btn .form-group{
+      display: block !important;
+   }
+
+   .navbar-right .itemMenu--a-btn{
+      width: 100%;
+   }
+
+   .navbar-right{
+      width: 25%;
+   }
+
+   .form-esqueciSenha,
+   .form-registrar{
+      padding: 0 !important;
+      text-align: left;
+   }
 
 }

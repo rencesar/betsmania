@@ -42,3 +42,9 @@
    background-color: #3C4D59 !important;
    color: #fff !important;
 }
+
+@media (min-width: 768px) and (max-width: 874px) {
+   .home-bar{
+      margin-top: 150px;
+   }
+}

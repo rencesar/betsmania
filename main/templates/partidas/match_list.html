@@ -204,17 +204,19 @@
 // REMOVER UMA APOSTA
 (function removeBet(){
 
+
    $(".js-groupAposta").on('click','.js-buttonRemoveBet', function(){
       var totalApostas = $(".js-groupAposta").siblings(".panel-heading").children(".badge");
       var totalValorAposta =  $(".js-totalValorAposta");
 
       $(this).closest(".js-betCopy").remove();
       totalApostas.text(parseInt(totalApostas.text()) - 1);
-      totalValorAposta.val(parseFloat(totalValorAposta.val()) - parseFloat($(this).closest(".js-betCopy").find(".js-tipoAposta").text().replace(/([a-z\s\(\)])/ig, "")))
+      totalValorAposta.val(parseFloat(totalValorAposta.val()) - parseFloat($(this).closest(".js-betCopy").find(".js-tipoAposta").text().replace(",", ".").replace(/([a-z\s\(\)])/ig, "")))
       calculatePossibleBetReturn();
    });
 
 })();
+
 
 // CALCULO DE POSSIVEL RETORNO
 function calculatePossibleBetReturn(){

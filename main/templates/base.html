@@ -21,7 +21,6 @@
 
 <!-- Fixed navbar -->
 <nav class="navbar navbar-default navbar--style navbar-fixed-top">
-    <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle navbar-toggle--style collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -31,6 +30,7 @@
             </button>
             <a class="navbar-brand" href="/">BetsMania</a>
         </div>
+        <div class="divider-row"></div>
         <div id="navbar" class="navbar-collapse collapse">
             <div role="separator" class="col-sm-1 col-md-3"></div>
             <ul class="nav navbar-nav navbar-center">
@@ -51,15 +51,11 @@
                 </li>
                 {% else %}
                 <li class="itemMenu--a-btn" ><a class="a-btn" href="{% url 'contas:login' %}">
-                    <button type="button" class="btn btn-default btn-default1 navbar-btn col-xs-12">Fazer Login</button>
-                </a></li>
-                <li class="itemMenu--a-btn" ><a class="a-btn" href="{% url 'contas:cadastro' %}">
-                    <button type="button" class="btn btn-default btn-default1 navbar-btn col-xs-12">Criar Conta</button>
+                   CARREGANDO PAGINA DE LOGIN
                 </a></li>
                 {% endif %}
             </ul>
         </div><!--/.nav-collapse -->
-    </div>
 </nav>
 
 <div class="container-fluid">
