@@ -57,28 +57,7 @@
 
     <div class="panel-body">
 
-      <!-- AREA COM INPUT PARA ENTRADA DO VALOR DA APOSTA -->
-      <label for="basic-url" class="text-custom">Valor da Aposta *</label>
-      <div class="input-group">
-        <span class="input-group-addon text-success">$</span>
-        <input type="text" class="form-control js-inptValorAposta" aria-label="Valor da Aposta" autofocus>
-      </div>
-      <div role="separator" class="form-group"></div>
-
-      <!-- AREA QUE INFORMA POSSIVEL RETORNO -->
-      <div class="alert alert-info text-center" role="alert">
-        <label>Possivel Retorno</label>
-        <p>R$<span class="js-possivelRetorno"> 0,00</span></p>
-      </div>
-
-      <!-- REMOVER TODOS AS APOSTAS -->
-      <div class="btn-group btn-group-justified" >
-        <div class="btn-group">
-          <p><button type="button" id="salve-bets" class="btn btn-success"><strong>Salvar as apostas</strong></button></p>
-          <button type="button" class="btn btn-danger js-buttonRemoveAllBets"><strong><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remover todas as apostas</strong></button>
-        </div>
-      </div>
-      <div role="separator" class="form-group"></div>
+      <div id="form-wrapper"></div>
 
       <!-- PAINEL COM GRUPO DE APOSTAS -->
       <div class="panel panel-danger">
@@ -126,6 +105,7 @@
       var totalValorAposta =  $(".js-totalValorAposta");
 
       $(".js-groupAposta").append(newBet($this));
+      $(".js-groupInput").append(newValues($this));
       totalApostas.text(parseInt(totalApostas.text()) + 1);
       totalValorAposta.val(parseFloat(totalValorAposta.val()) + parseFloat($this.text().replace(",", ".")));
       calculatePossibleBetReturn();
@@ -133,7 +113,6 @@
 
    function newBet(target){
       var $aposta = $(".js-aposta").clone();
-      var $pk = target.parent().siblings("#bet-pk").text();
       var $data = target.parent().siblings(".js-jData").text();
       var $timeCasa = target.parent().siblings(".js-jTimeCasa").text();
       var $timeFora = target.parent().siblings(".js-jTimeFora").text();
@@ -142,13 +121,23 @@
       $aposta.removeClass("js-aposta");
       $aposta.removeClass("hidden");
       $aposta.addClass("js-betCopy");
-      $aposta.find("#bet-pk-done").text($pk);
       $aposta.find(".js-jogo").text($timeCasa + " X " + $timeFora);
       $aposta.find(".js-campeonato").text($campeonato);
       $aposta.find(".js-dataHora").text($data);
-      $aposta.find("#bet-type-done").text(target.closest("td").data("field"));
       $aposta.find(".js-tipoAposta").text(target.prop("name") + " ");
-      $aposta.find("#bet-value-done").text("("+ target.text() +")");
+
+      return $aposta;
+   }
+
+   function newValues(target){
+      var $aposta = $("#input-bet-group").clone();
+      var $pk = target.parent().siblings("#bet-pk").text();
+
+      $aposta.removeClass("js-aposta");
+      $aposta.removeClass("hidden");
+      $aposta.addClass("js-betCopy");
+      $aposta.find("#id_match_pk").val($pk);
+      $aposta.find("#id_match_type").val(target.closest("td").data("field"));
 
       return $aposta;
    }
@@ -200,7 +189,6 @@
   });
 })();
 
-
 // REMOVER UMA APOSTA
 (function removeBet(){
 
@@ -251,6 +239,26 @@ function calculatePossibleBetReturn(){
    });
 
 })();
+
+$(document).ready(function() {
+  $.get('{% url 'apostas:realizar-aposta' %}', function(data) {
+        $('#form-wrapper').html(data);
+  });
+
+  $('body').on('submit', '#form-wrapper form', function(event) {
+    event.preventDefault();
+    var form = $(this);
+    form.ajaxSubmit({
+      dataType: 'html',
+      success: function(response) {
+        console.log('oi')
+      },
+      error: function(data, textStatus) {
+        form.replaceWith(data.responseText);
+      },
+    });
+  });
+});
 
 
 </script>
