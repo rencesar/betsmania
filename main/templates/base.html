@@ -11,9 +11,10 @@
     <!-- Bootstrap core CSS -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/styleBase.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styleHome.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styleLogged.css' %}" rel="stylesheet">
     <link href="{% static 'css/styleLogin.css' %}" rel="stylesheet">
     <link href="{% static 'css/styleRegister.css' %}" rel="stylesheet">
-    <link href="{% static 'css/styleHome.css' %}" rel="stylesheet">
     <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
 </head>
 
@@ -21,45 +22,68 @@
 
 <!-- Fixed navbar -->
 <nav class="navbar navbar-default navbar--style navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle navbar-toggle--style collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">BetsMania</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <div role="separator" class="col-sm-1 col-md-3"></div>
-            <ul class="nav navbar-nav navbar-center">
-                <li class="itemMenu"><a href="#" class="itemMenu--a">Jogos</a></li>
-                <li class="itemMenu"><a href="#about" class="itemMenu--a">Apostas</a></li>
-                <li class="itemMenu"><a href="#contact" class="itemMenu--a">Regras</a></li>
-                <li class="itemMenu"><a href="#contact" class="itemMenu--a">Contatos</a></li>
+   <div class="navbar-header">
+      <button type="button" class="navbar-toggle navbar-toggle--style collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+         <span class="sr-only">Toggle navigation</span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">
+         BetsMania
+         <img class="logo" alt="Brand" src="../static/img/ball1.png">
+      </a>
+   </div>
+   {% if user.is_authenticated %}
+   <div class="divider-row"></div>
+   {% endif %}
+   <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-center">
+         <li class="itemMenu"><a href="#" class="itemMenu--a">Jogos</a></li>
+         <li class="itemMenu"><a href="#about" class="itemMenu--a">Apostas</a></li>
+         <li class="itemMenu"><a href="#contact" class="itemMenu--a">Regras</a></li>
+         <li class="itemMenu"><a href="#contact" class="itemMenu--a">Contatos</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+         {% if user.is_authenticated %}
+         <li class="dropdown userLogged">
+            <a href="#" class="dropdown-toggle userLogged--a" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+               <img src="../static/img/02.jpg" alt="Foto de Perfil" class="img-circle profilePicture">
+               <h4 class="nameUser">{{ user }}<span class="caret"></span></h4>
+            </a>
+            <ul class="dropdown-menu optionUser">
+               <li><a href="#">Perfil</a></li>
+               <li><a href="#">Minhas Apostas</a></li>
+               <li role="separator" class="divider"></li>
+               <li><a href="{% url 'contas:logout' %}">Sair</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                {% if user.is_authenticated %}
-                <li class="dropdown userLogged">
-                    <a href="#" class="dropdown-toggle userLogged--a" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user }}<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Perfil</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="{% url 'contas:logout' %}">Sair</a></li>
-                    </ul>
-                </li>
-                {% else %}
-                <li class="itemMenu--a-btn" ><a class="a-btn" href="{% url 'contas:login' %}">
-                    <button type="button" class="btn btn-default btn-default1 navbar-btn col-xs-12">Fazer Login</button>
-                </a></li>
-                <li class="itemMenu--a-btn" ><a class="a-btn" href="{% url 'contas:cadastro' %}">
-                    <button type="button" class="btn btn-default btn-default1 navbar-btn col-xs-12">Criar Conta</button>
-                </a></li>
-                {% endif %}
-            </ul>
-        </div><!--/.nav-collapse -->
-    </div>
+         </li>
+         {% else %}
+         <li class="itemMenu--a-btn" ><a class="a-btn">
+            <form class="form-inline">
+               {% csrf_token %}
+               <div class="form-group ">
+                  <input type="text" class="input-login col-xs-12 " name="username" id="id_username" placeholder="Usuário" required maxlength="254">
+               </div>
+               <div class="form-group ">
+                  <input type="password" class="input-login col-xs-12" name="password" id="id_password" placeholder="Senha" required>
+               </div>
+               <div class="form-group">
+                  <button type="submit" class="btn-entrar col-xs-12">Entrar</button>
+               </div>
+            </form>
+            <div class="form-inline ">
+               <div class="form-group form-registrar">
+                  <a class="a-registrar" href="{% url 'contas:cadastro' %}">Registre-se</a>
+               </div>
+               <div class="form-group col-sm-6 form-esqueciSenha">
+                  <a class="a-esqueciSenha" href="#">Recuperar Senha</a>
+               </div>
+            </div>
+         </a></li>
+         {% endif %}
+      </ul>
+   </div><!--/.nav-collapse -->
 </nav>
 
 <div class="container-fluid">
@@ -73,8 +97,7 @@
 <script src="{% static 'js/bootstrap.js' %}"></script>
 <script src="{% static 'js/bootstrap-notify.js' %}"></script>
 <script type="text/javascript">
-   // Open login modal
-   $('#modalLogin').modal('show');
+
 function showMessage(message, tag){
      $.notify({
          message: message

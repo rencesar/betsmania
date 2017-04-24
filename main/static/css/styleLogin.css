@@ -1,29 +1,88 @@
-.modal-header--login{
-   border: 2px solid #5F798C;
+.btn-entrar{
+   background-color: #D8D888 !important;
+   color:#3C4D59 !important;
+   border: 1px solid transparent;
+   border-radius: 3px;
+   padding: 2px 4px;
 }
 
+.form-group .input-login,
+.input-login,
 .btn-entrar{
+   position: relative;
+   font-size: 11px;
+   font-weight: normal;
+   margin: 2px 0;
+}
+
+.input-login{
+   padding: 2px 4px;
+   border: 1px solid #5F798C;
    background-color: #5F798C !important;
    color:#fff !important;
 }
 
-.modal-header--login > button {
-   color: #5F798C !important;
-   opacity: 1 !important;
+.input-login::-webkit-input-placeholder {
+   color: #3C4D59;
 }
 
-.modal-header--login > h4{
-   color: #5F798C;
-   text-align: center;
-   font-weight: bold;
+.input-login:-moz-placeholder { /* Firefox 18- */
+   color: #3C4D59;
 }
 
-.modal-body--login .form-group{
-   margin-bottom: 10px !important;
-   color: #5F798C !important;
+.input-login::-moz-placeholder {  /* Firefox 19+ */
+   color: #3C4D59;
 }
 
-.modal-body--login{
-   border: 4px solid #5F798C;
-   background-color: rgba(95, 121, 140, 0.17);
+.input-login:-ms-input-placeholder {
+   color: #3C4D59;
+}
+
+.form-esqueciSenha{
+   float: right;
+   padding: 0 !important;
+}
+
+.a-registrar,
+.a-registrar:hover,
+.a-registrar:visited,
+.a-registrar:link
+.a-esqueciSenha,
+.a-esqueciSenha:hover,
+.a-esqueciSenha:visited,
+.a-esqueciSenha:link{
+   color: #D8D888;
+   font-size: 11px;
+}
+
+.form-esqueciSenha,
+.form-registrar{
+   margin-bottom: 4px !important;
+}
+
+@media screen and (max-width: 767px) {
+   .form-esqueciSenha{
+      margin-right: 5px;
+   }
+
+   .form-registrar{
+      float: left;
+   }
+
+   .form-esqueciSenha,
+   .form-registrar{
+      width: 49%;
+      padding: 0 !important;
+      padding: 0 20px;
+      margin: 4px 0;
+      text-align: center;
+   }
+}
+
+@media (min-width: 768px) and (max-width: 874px) {
+   .form-esqueciSenha,
+   .form-registrar{
+      padding: 0 !important;
+      text-align: left;
+   }
 }
