@@ -1,5 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
+
 <html lang="pt-br">
 <head>
     <meta charset="utf-8">
@@ -31,7 +32,7 @@
       </button>
       <a class="navbar-brand" href="/">
          BetsMania
-         <img class="logo" alt="Brand" src="../static/img/ball1.png">
+         <img class="logo" alt="Brand" src="{% static 'img/ball1.png' %}">
       </a>
    </div>
    {% if user.is_authenticated %}
@@ -48,7 +49,7 @@
          {% if user.is_authenticated %}
          <li class="dropdown userLogged">
             <a href="#" class="dropdown-toggle userLogged--a" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-               <img src="../static/img/02.jpg" alt="Foto de Perfil" class="img-circle profilePicture">
+               <img src="{% static 'img/02.jpg' %}" alt="Foto de Perfil" class="img-circle profilePicture">
                <h4 class="nameUser">{{ user }}<span class="caret"></span></h4>
             </a>
             <ul class="dropdown-menu optionUser">
@@ -59,28 +60,7 @@
             </ul>
          </li>
          {% else %}
-         <li class="itemMenu--a-btn" ><a class="a-btn">
-            <form class="form-inline">
-               {% csrf_token %}
-               <div class="form-group ">
-                  <input type="text" class="input-login col-xs-12 " name="username" id="id_username" placeholder="Usuário" required maxlength="254">
-               </div>
-               <div class="form-group ">
-                  <input type="password" class="input-login col-xs-12" name="password" id="id_password" placeholder="Senha" required>
-               </div>
-               <div class="form-group">
-                  <button type="submit" class="btn-entrar col-xs-12">Entrar</button>
-               </div>
-            </form>
-            <div class="form-inline ">
-               <div class="form-group form-registrar">
-                  <a class="a-registrar" href="{% url 'contas:cadastro' %}">Registre-se</a>
-               </div>
-               <div class="form-group col-sm-6 form-esqueciSenha">
-                  <a class="a-esqueciSenha" href="#">Recuperar Senha</a>
-               </div>
-            </div>
-         </a></li>
+         <div id="form-login"></div>
          {% endif %}
       </ul>
    </div><!--/.nav-collapse -->
@@ -115,6 +95,28 @@ function showMessage(message, tag){
     showMessage('{{message}}', '{{message.tags}}');
 {% endfor %}
 {% endif %}
+
+$(document).ready(function(){
+   $.get('{% url 'contas:login' %}', function(data){
+      $('#form-login').html(data);
+   });
+
+   $('body').on('submit', '#form-login form', function(event) {
+      event.preventDefault();
+      var form = $(this);
+      form.ajaxSubmit({
+         dataType: 'html',
+         success: function(response) {
+           console.log(response)
+         },
+         error: function(data, textStatus) {
+           form.replaceWith(data.responseText);
+         },
+      });
+    });
+
+
+});
 </script>
 {% block js %}{% endblock %}
 </body>
