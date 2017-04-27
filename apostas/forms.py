@@ -9,7 +9,7 @@ class BetSingleFieldForm(forms.ModelForm):
         label=_('Bet\'s value'), required=True,
         min_value=5, decimal_places=2
     )
-    match_pk = forms.IntegerField(
+    match_pk = forms.CharField(
         label=_('Match\'s pk'),
         required=False
     )
@@ -22,22 +22,17 @@ class BetSingleFieldForm(forms.ModelForm):
         model = models.Bet
         fields = ['bet_value', 'match_pk', 'match_type']
 
-    def clean_match_type(self):
-        match_type = self.cleaned_data.get('match_type')
-        print(self.cleaned_data)
-        if not match_type:
-            raise forms.ValidationError(_('No have bet to save'))
-        return match_type
+    def clean(self):
+        cleaned_data = super(BetSingleFieldForm, self).clean()
+        match_pk = cleaned_data.get('match_pk').split(';')
+        match_type = cleaned_data.get('match_type').split(';')
+        if not match_pk or not match_type:
+            self.add_error('bet_value', _('No have bet to save'))
+        if len(match_pk) < 2:
+            self.add_error('bet_value', _('Insufficient amount of bets'))
+        return cleaned_data
 
-    def clean_match_pk(self):
-        match_type = self.cleaned_data['match_pk']
-        if not match_type:
-            raise forms.ValidationError(_('No have bet to save'))
-        return match_type
-    #
-    # def clean(self):
-    #     cleaned_data = super(BetSingleFieldForm, self).clean()
-    #     match_pk = cleaned_data.get('match_pk')
-    #     match_type = cleaned_data.get('match_type')
-    #     if not match_pk and not match_type:
-    #         self.add_error('bet_value', _('No have bet to save'))
+    def objects_dict(self):
+        match_pk = self.cleaned_data.get('match_pk').split(';')
+        match_type = self.cleaned_data.get('match_type').split(';')
+        return {pk: type for pk, type in zip(match_pk, match_type)}
