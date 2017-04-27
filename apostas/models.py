@@ -6,13 +6,17 @@ from partidas.models import Match
 
 
 class BetManager(models.Manager):
-    def create_with_code(self, *args, **kwargs):
-        obj = self.create(*args, **kwargs)
-        user = str(obj.user.pk).zfill(4)
-        match = str(obj.match.pk).zfill(6)
-        value = str(obj.value).replace('.', '').zfill(4)
-        obj.code = user + match + value
+
+    def create(self, *args, **kwargs):
+        '''
+        Cria Aposta e adiciona um 'code' com base nos seus campos 
+        '''
+        obj = super(BetManager, self).create(*args, **kwargs)
+        match = str(obj.match.pk).zfill(3)
+        user = str(obj.user.pk).zfill(3) + '-' if obj.user else ''
+        obj.code = str(obj.pk) + '-' + user + match
         obj.save()
+        return obj
 
 
 class Bet(models.Model):

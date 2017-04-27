@@ -1,0 +1,43 @@
+<form method="POST" action="{{ request.path }}" id="bet-form">{% csrf_token %}
+
+  {% for error in form.non_field_errors %}
+   <div class="alert alert-danger">{{ error }}</div>
+  {% endfor %}
+
+
+  <!-- AREA COM INPUT PARA ENTRADA DO VALOR DA APOSTA -->
+  <label for="basic-url" class="text-custom">Valor da Aposta *</label>
+  {% if form.bet_value.errors %}
+      {% for error in form.bet_value.errors %}
+       <span class="help-inline">{{ error }}</span>
+      {% endfor %}
+    {% endif %}
+  <div class="input-group">
+    <span class="input-group-addon text-success">$</span>
+    <input type="number" name="bet_value" required="" min="5" id="id_bet_value" step="0.01" class="form-control js-inptValorAposta" aria-label="Valor da Aposta" autofocus>
+    <div id="input-bet-group">
+      {{ form.match_pk }}
+      {{ form.match_type }}
+    </div>
+  </div>
+  <div class="js-groupInput">
+  </div>
+  <div role="separator" class="form-group"></div>
+
+  <!-- AREA QUE INFORMA POSSIVEL RETORNO -->
+  <div class="alert alert-info text-center" role="alert">
+    <label>Possivel Retorno</label>
+    <p>R$<span class="js-possivelRetorno"> 0,00</span></p>
+  </div>
+  <!-- REMOVER TODOS AS APOSTAS -->
+  <div class="btn-group btn-group-justified" >
+    <div class="btn-group">
+      <button type="submit" id="salve-bets" class="btn btn-success btn-block"><strong><span class="fa fa-floppy-o" aria-hidden="true"></span> Salvar as apostas</strong></button>
+      <button type="button" class="btn btn-danger btn-block js-buttonRemoveAllBets"><strong><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remover todas as apostas</strong></button>
+    </div>
+  </div>
+  <div role="separator" class="form-group"></div>
+</form>
+
+
+

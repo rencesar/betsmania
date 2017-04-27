@@ -1,5 +1,5 @@
 <li class="itemMenu--a-btn" ><a class="a-btn">
-<form class="form-inline" action="{{ request.path }}">
+<form method="POST" class="form-inline" action="{{ request.path }}">
    {% csrf_token %}
    <div class="form-group ">
       <input type="text" class="input-login col-xs-12 " name="username" id="id_username" placeholder="Usuário" required maxlength="254">

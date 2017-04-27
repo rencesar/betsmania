@@ -14,3 +14,6 @@ class Match(models.Model):
     draw = models.DecimalField(_('Draw'), decimal_places=2, max_digits=3)
     visiting_win = models.DecimalField(_('Visiting team win'), decimal_places=2, max_digits=3)
     league = models.ForeignKey(League, verbose_name=_('League'))
+
+    def __str__(self):
+        return '%s x %s' % (self.home_team, self.visiting_team)
