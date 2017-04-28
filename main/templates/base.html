@@ -109,6 +109,7 @@ $(document).ready(function(){
          dataType: 'html',
          success: function(response) {
            console.log(response)
+           location.reload();
          },
          error: function(data, textStatus) {
            form.replaceWith(data.responseText);

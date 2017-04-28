@@ -1,8 +1,5 @@
-import json
-from django.contrib import messages
-from django.core.urlresolvers import reverse
-from django.http import HttpResponse
 from django.views import generic
+from django.contrib import messages
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
@@ -21,24 +18,29 @@ class BetCreateView(generic.CreateView):
         return None
 
     def form_invalid(self, form):
-        print('oi')
-        print(form)
         return self.render_to_response(self.get_context_data(form=form), status=420)
 
     def form_valid(self, form):
         dict_match = form.objects_dict()
-        self.value = form['bet_value']
+        self.value = float(form.cleaned_data['bet_value'])
+        group = self.create_bet_group
         for pk, match_type in dict_match.items():
-            self.create_bet(pk, match_type)
-        return self.render_to_response(self.get_context_data(form=form))
+            self.create_bet(pk, match_type, group)
+        messages.success(self.request, _('Your bet has been successfully placed'))
+        return self.render_to_response(self.get_context_data())
 
-    def create_bet(self, match_pk, match_type):
+    def create_bet_group(self):
+        models.BetGroup.objects.create(
+            user=self.user, value=self.value
+        )
+
+    def create_bet(self, match_pk, match_type, group):
         '''
         Cria aposta com dados passado pelo usuario na view
         '''
         match = Match.objects.get(pk=match_pk)
         models.Bet.objects.create(
-            user=self.user, match=match,
-            value=self.value*float(getattr(match, match_type)),
-            type=_(type)
+            match=match,
+            value=float(getattr(match, match_type)),
+            type=_(match_type), bet_group=group
         )

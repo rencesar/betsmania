@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% block title %}Página Inicial{% endblock %}
 {% block container %}
 <div class="col-md-12 home-bar">
   <ul class="list-group">
@@ -79,7 +79,7 @@
             <p class="js-campeonato"></p>
             <p class="js-dataHora"></p>
             <p>
-              <span class="js-tipoAposta"></span><strong id="bet-value-done"></strong>
+              <span class="js-tipoAposta">origin</span><strong class="js-bet-value-done" id="bet-value-done">origin</strong>
             </p> <!--Resolver problema quebra de linha-->
             <div class="btn-group btn-group-justified" role="group" aria-label="...">
               <div class="btn-group" role="group">
@@ -98,12 +98,6 @@
 {% block js %}
 
 <script type="text/javascript">
-function increment(obj, value) {
-    obj.val( function(i, oldval) {
-        return ++oldval;
-    });
-}
-
 
 // ADICIONAR UMA APOSTA
 (function addBet(){
@@ -127,9 +121,10 @@ function increment(obj, value) {
          $(".js-groupAposta").append(newBet($this));
          totalApostas.text(parseInt(totalApostas.text()) + 1);
       }
-      ## INSERIR VALOR DO PK E DO TYPE DA APOSTA NOS FIELDS DO FORMS SEPARADOS POR ;
+      // INSERIR VALOR DO PK E DO TYPE DA APOSTA NOS FIELDS DO FORMS SEPARADOS POR ;
       totalValorAposta.val(parseFloat(totalValorAposta.val()) + parseFloat($this.text().replace(",", ".")));
       calculatePossibleBetReturn();
+      arrayApostas();
 
    });
 
@@ -153,6 +148,25 @@ function increment(obj, value) {
 
 })();
 
+function arrayApostas(){
+  var typesBet = "";
+  var valuesBet = "";
+
+  $(".js-tipoAposta").each(function(){
+    if($(this).text() != "origin"){
+      typesBet += ";" + $(this).text();
+    }
+  });
+
+  $(".js-bet-value-done").each(function(){
+    if($(this).text() != "origin"){
+      valuesBet += ";" + $(this).text();
+    }
+  });
+
+  $("#id_match_pk").val(typesBet.replace(/^\;/ig, ""));
+  $("#id_match_type").val(valuesBet.replace(/^\;/ig, "").replace(/([\(\)])/ig, ""));
+}
 
 // REMOVER TODAS AS APOSTAS
 (function removeAllBets(){
@@ -165,6 +179,8 @@ function increment(obj, value) {
       totalApostas.text(0);
       totalValorAposta.val(0);
       calculatePossibleBetReturn();
+      arrayApostas();
+
    });
 
 })();
@@ -180,6 +196,8 @@ function increment(obj, value) {
       totalApostas.text(parseInt(totalApostas.text()) - 1);
       totalValorAposta.val(parseFloat(totalValorAposta.val()) - parseFloat($(this).closest(".js-betCopy").find("#bet-value-done").text().replace(",", ".").replace(/([a-z\s\(\)])/ig, "")))
       calculatePossibleBetReturn();
+      arrayApostas();
+
    });
 
 })();
@@ -231,7 +249,7 @@ $(document).ready(function() {
     form.ajaxSubmit({
       dataType: 'html',
       success: function(response) {
-        console.log('oi')
+        showMessage(message, tag)
       },
       error: function(data, textStatus) {
         form.replaceWith(data.responseText);

@@ -1,16 +1,29 @@
-<li class="itemMenu--a-btn" ><a class="a-btn">
+<li class="itemMenu--a-btn" >
+<a class="a-btn">
 <form method="POST" class="form-inline" action="{{ request.path }}">
    {% csrf_token %}
+   {% for error in form.non_field_errors %}
+     <div class="text-danger">{{ error }}</div>
+   {% endfor %}
    <div class="form-group ">
+      {% if form.username.errors %}
+        {% for error in form.username.errors %}
+         <span class="help-inline">{{ error }}</span>
+        {% endfor %}
+      {% endif %}
       <input type="text" class="input-login col-xs-12 " name="username" id="id_username" placeholder="Usuário" required maxlength="254">
    </div>
    <div class="form-group ">
+      {% if form.password.errors %}
+        {% for error in form.password.errors %}
+         <span class="help-inline">{{ error }}</span>
+        {% endfor %}
+      {% endif %}
       <input type="password" class="input-login col-xs-12" name="password" id="id_password" placeholder="Senha" required>
    </div>
    <div class="form-group">
       <button type="submit" class="btn-entrar col-xs-12">Entrar</button>
    </div>
-</form>
 <div class="form-inline ">
    <div class="form-group form-registrar">
       <a class="a-registrar" href="{% url 'contas:cadastro' %}">Registre-se</a>
@@ -19,4 +32,6 @@
       <a class="a-esqueciSenha" href="#">Recuperar Senha</a>
    </div>
 </div>
-</a></li>
+</form>
+</a>
+</li>
