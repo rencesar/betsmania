@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Página Inicial{% endblock %}
 {% block container %}
 <div class="col-md-12 home-bar">
@@ -73,13 +74,13 @@
 
           <!-- AREA DE UMA APOSTA -->
           <li class="list-group-item border-danger hidden js-aposta text-danger">
-            <p id="bet-pk-done" class="hidden"></p>
-            <p id="bet-type-done" class="hidden"></p>
+            <p id="bet-pk-done" class="hidden js-betPkDone">none</p>
+            <p id="bet-type-done" class="hidden js-betTypeDone">none</p>
             <p class="js-jogo"></p>
             <p class="js-campeonato"></p>
             <p class="js-dataHora"></p>
             <p>
-              <span class="js-tipoAposta">origin</span><strong class="js-bet-value-done" id="bet-value-done">origin</strong>
+              <span class="js-tipoAposta"></span><strong id="bet-value-done"></strong>
             </p> <!--Resolver problema quebra de linha-->
             <div class="btn-group btn-group-justified" role="group" aria-label="...">
               <div class="btn-group" role="group">
@@ -106,8 +107,6 @@
       var $this = $(this);
       var totalApostas = $(".js-groupAposta").siblings(".panel-heading").children(".badge");
       var totalValorAposta =  $(".js-totalValorAposta");
-      var typesBet = "";
-      var pkBet = "";
 
 
 
@@ -127,17 +126,13 @@
       // INSERIR VALOR DO PK E DO TYPE DA APOSTA NOS FIELDS DO FORMS SEPARADOS POR ;
       totalValorAposta.val(parseFloat(totalValorAposta.val()) + parseFloat($this.text().replace(",", ".")));
       calculatePossibleBetReturn();
-
-      typesBet += ';' + $this.closest('js-Status').prop('data-field');
-      console.log($this.closest('.js-Status').prop("class"));
-      pkBet += ';' + $this.closest('tr').find('#bet-pk').text();
-      $("#id_match_type").val(typesBet.replace(/^\;/ig, ""));
-      $("#id_match_pk").val(pkBet.replace(/^\;/ig, ""));
+      arrayApostas();
 
    });
 
    function newBet(target){
       var $aposta = $(".js-aposta").clone();
+      var $pk = target.parent().siblings("#bet-pk").text();
       var $data = target.parent().siblings(".js-jData").text();
       var $timeCasa = target.parent().siblings(".js-jTimeCasa").text();
       var $timeFora = target.parent().siblings(".js-jTimeFora").text();
@@ -146,46 +141,53 @@
       $aposta.removeClass("js-aposta");
       $aposta.removeClass("hidden");
       $aposta.addClass("js-betCopy");
+      $aposta.find("#bet-pk-done").text($pk);
+      $aposta.find("#bet-type-done").text(target.closest("td").data("field"));
       $aposta.find(".js-jogo").text($timeCasa + " X " + $timeFora);
       $aposta.find(".js-campeonato").text($campeonato);
       $aposta.find(".js-dataHora").text($data);
       $aposta.find(".js-tipoAposta").text(target.prop("name") + " ");
+      $aposta.find("#bet-value-done").text("("+ target.text() +")");
 
       return $aposta;
    }
 
 })();
 
-function arrayApostas(){
-  var typesBet = "";
-  var valuesBet = "";
 
-  $(".js-tipoAposta").each(function(){
-    if($(this).text() != "origin"){
+function arrayApostas(){
+  var pkBet = "";
+  var typesBet = "";
+
+  $(".js-betPkDone").each(function(){
+    if($(this).text() != "none"){
+      pkBet += ";" + $(this).text();
+    }
+  });
+
+  $(".js-betTypeDone").each(function(){
+    if($(this).text() != "none"){
       typesBet += ";" + $(this).text();
     }
   });
 
-  $(".js-bet-value-done").each(function(){
-    if($(this).text() != "origin"){
-      valuesBet += ";" + $(this).text();
-    }
-  });
-
-  $("#id_match_pk").val(typesBet.replace(/^\;/ig, ""));
-  $("#id_match_type").val(valuesBet.replace(/^\;/ig, "").replace(/([\(\)])/ig, ""));
+  $("#id_match_pk").val(pkBet.replace(/^\;/ig, ""));
+  $("#id_match_type").val(typesBet.replace(/^\;/ig, ""));
 }
+
 
 // REMOVER TODAS AS APOSTAS
 (function removeAllBets(){
 
-   $(".js-buttonRemoveAllBets").click(function(){
+   $("#form-wrapper").on('click','.js-buttonRemoveAllBets', function(){
       var totalApostas = $(".js-groupAposta").siblings(".panel-heading").children(".badge");
       var totalValorAposta =  $(".js-totalValorAposta");
 
       $(".js-groupAposta").children(".js-betCopy").remove();
       totalApostas.text(0);
       totalValorAposta.val(0);
+      $("#id_match_pk").val('');
+      $("#id_match_type").val('');
       calculatePossibleBetReturn();
       arrayApostas();
 
@@ -196,19 +198,22 @@ function arrayApostas(){
 // REMOVER UMA APOSTA
 (function removeBet(){
 
+
    $(".js-groupAposta").on('click','.js-buttonRemoveBet', function(){
       var totalApostas = $(".js-groupAposta").siblings(".panel-heading").children(".badge");
       var totalValorAposta =  $(".js-totalValorAposta");
 
       $(this).closest(".js-betCopy").remove();
       totalApostas.text(parseInt(totalApostas.text()) - 1);
-      totalValorAposta.val(parseFloat(totalValorAposta.val()) - parseFloat($(this).closest(".js-betCopy").find("#bet-value-done").text().replace(",", ".").replace(/([a-z\s\(\)])/ig, "")))
+      totalValorAposta.val(parseFloat(totalValorAposta.val()) - parseFloat($(this).closest(".js-betCopy").find(".js-tipoAposta").text().replace(",", ".").replace(/([a-z\s\(\)])/ig, "")))
       calculatePossibleBetReturn();
+
       arrayApostas();
 
    });
 
 })();
+
 
 // CALCULO DE POSSIVEL RETORNO
 function calculatePossibleBetReturn(){
@@ -229,22 +234,23 @@ function calculatePossibleBetReturn(){
 (function whenchangeInputBetValue(){
 
    // QUANDO O IMPUT PERDER O FOCO O VALOR É FORMATADO PARA MOEDA
-   $(".js-inptValorAposta").on('focusout',function(){
-      var valorAposta = parseFloat($(".js-inptValorAposta").val().replace(",", ".").replace(/[^0-9\.]/ig,""))
+   $("#form-wrapper").on('focusout', ".js-inptValorAposta", function(){
+      var valorAposta = $(".js-inptValorAposta").val()
 
-      if(!isNaN(parseFloat($(".js-inptValorAposta").val().replace(/[^0-9\.\,]/ig,"") ) ) && $(".js-inptValorAposta").val() != ""){
-         $(".js-inptValorAposta").val(valorAposta.toFixed(2).replace(".", ",").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"));
+      if($(".js-inptValorAposta").val() != ""){
+         $(".js-inptValorAposta").val(valorAposta);
       }else {
          $(".js-inptValorAposta").val("");
       }
    });
 
    // QUANDO SE INSERI ALGUM VALOR NO INPUT E A TECLA SOBE O CALCULO DE POSSIVEL RETORNO É FEITO
-   $(".js-inptValorAposta").on('keyup',function(){
+   $("#form-wrapper").on('input', ".js-inptValorAposta", function(){
       calculatePossibleBetReturn();
    });
 
 })();
+
 
 $(document).ready(function() {
   $.get('{% url 'apostas:realizar-aposta' %}', function(data) {

@@ -12,9 +12,10 @@ class BetGroupManager(models.Manager):
         '''
         Cria Aposta e adiciona um 'code' com base nos seus campos 
         '''
-        obj = super(BetManager, self).create(*args, **kwargs)
+        obj = super(BetGroupManager, self).create(*args, **kwargs)
         user = str(obj.user.pk).zfill(3) + '-' if obj.user else ''
-        obj.code = str(obj.pk) + '/' + user + obj.day + '/' + obj.month
+        date = str(obj.date.day) + '/' + str(obj.date.month)
+        obj.code = str(obj.pk) + '/' + user + date
         obj.save()
         return obj
 
@@ -22,7 +23,8 @@ class BetGroupManager(models.Manager):
 class BetGroup(models.Model):
     user = models.ForeignKey(User, blank=True, null=True)
     value = models.DecimalField(_('Value'), decimal_places=2, max_digits=8)
-    date = models.DateTimeField(_('Date'), auto_created=timezone.now())
+    date = models.DateTimeField(_('Date'), default=timezone.now)
+    code = models.CharField(_('Code'), max_length=126, blank=True, null=True)
 
     objects = BetGroupManager()
 
@@ -35,16 +37,16 @@ class BetManager(models.Manager):
         '''
         obj = super(BetManager, self).create(*args, **kwargs)
         match = str(obj.match.pk).zfill(3)
-        user = str(obj.user.pk).zfill(3) + '-' if obj.user else ''
-        obj.code = str(obj.pk) + '/' + user + match
+        obj.code = str(obj.pk) + '/' + match
         obj.save()
         return obj
 
 
 class Bet(models.Model):
     code = models.CharField(_('Code'), max_length=126)
+    value = models.DecimalField(_('Value'), decimal_places=2, max_digits=8)
     match = models.ForeignKey(Match, verbose_name=_('Match'))
-    type = models.CharField(_('Type'), max_length=100)
+    match_type = models.CharField(_('Type'), max_length=100)
     bet_group = models.ForeignKey(BetGroup, verbose_name=_('Bet group'))
 
     objects = BetManager()

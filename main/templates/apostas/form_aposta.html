@@ -8,13 +8,13 @@
   <!-- AREA COM INPUT PARA ENTRADA DO VALOR DA APOSTA -->
   <label for="basic-url" class="text-custom">Valor da Aposta *</label>
   {% if form.bet_value.errors %}
-      {% for error in form.bet_value.errors %}
-       <span class="help-inline">{{ error }}</span>
-      {% endfor %}
-    {% endif %}
+    {% for error in form.bet_value.errors %}
+     <span class="help-inline">{{ error }}</span>
+    {% endfor %}
+  {% endif %}
   <div class="input-group">
     <span class="input-group-addon text-success">$</span>
-    <input type="number" name="bet_value" required="" min="5" id="id_bet_value" step="0.01" class="form-control js-inptValorAposta" aria-label="Valor da Aposta" autofocus>
+    <input type="number" name="bet_value" required min="5" id="id_bet_value" step="0.01" class="form-control js-inptValorAposta" aria-label="Valor da Aposta" autofocus>
     <div id="input-bet-group">
       {{ form.match_pk }}
       {{ form.match_type }}

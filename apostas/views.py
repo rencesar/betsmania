@@ -23,14 +23,15 @@ class BetCreateView(generic.CreateView):
     def form_valid(self, form):
         dict_match = form.objects_dict()
         self.value = float(form.cleaned_data['bet_value'])
-        group = self.create_bet_group
+        group = self.create_bet_group()
+        print(group)
         for pk, match_type in dict_match.items():
             self.create_bet(pk, match_type, group)
         messages.success(self.request, _('Your bet has been successfully placed'))
         return self.render_to_response(self.get_context_data())
 
     def create_bet_group(self):
-        models.BetGroup.objects.create(
+        return models.BetGroup.objects.create(
             user=self.user, value=self.value
         )
 
@@ -42,5 +43,5 @@ class BetCreateView(generic.CreateView):
         models.Bet.objects.create(
             match=match,
             value=float(getattr(match, match_type)),
-            type=_(match_type), bet_group=group
+            match_type=_(match_type), bet_group=group
         )
