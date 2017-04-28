@@ -21,7 +21,7 @@ class BetGroupManager(models.Manager):
 
 
 class BetGroup(models.Model):
-    user = models.ForeignKey(User, blank=True, null=True)
+    user = models.ForeignKey(User, related_name='user', blank=True, null=True)
     value = models.DecimalField(_('Value'), decimal_places=2, max_digits=8)
     date = models.DateTimeField(_('Date'), default=timezone.now)
     code = models.CharField(_('Code'), max_length=126, blank=True, null=True)
@@ -45,8 +45,10 @@ class BetManager(models.Manager):
 class Bet(models.Model):
     code = models.CharField(_('Code'), max_length=126)
     value = models.DecimalField(_('Value'), decimal_places=2, max_digits=8)
-    match = models.ForeignKey(Match, verbose_name=_('Match'))
+    match = models.ForeignKey(Match, verbose_name=_('Match'), related_name='match')
     match_type = models.CharField(_('Type'), max_length=100)
-    bet_group = models.ForeignKey(BetGroup, verbose_name=_('Bet group'))
+    bet_group = models.ForeignKey(
+        BetGroup, verbose_name=_('Bet group'), related_name='bet_group'
+        )
 
     objects = BetManager()
