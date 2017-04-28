@@ -38,9 +38,9 @@
           <td data-field="date" class="text-center js-jData">{{ match.date|date:'d/m/Y à\s H:i' }}</td>
           <td data-field="home_team" class="text-center js-jTimeCasa">{{ match.home_team }}</td>
           <td data-field="visiting_team" class="text-center js-jTimeFora">{{ match.visiting_team }}</td>
-          <td data-field="home_win" class="text-center js-jVitoriaCasa"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Casa">{{ match.home_win|floatformat:2 }}</button></td>
-          <td data-field="draw" class="text-center js-jEmpate"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Empate">{{ match.draw|floatformat:2 }}</button></td>
-          <td data-field="visiting_win" class="text-center js-jVitoriaFora"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Fora">{{ match.visiting_win|floatformat:2 }}</button></td>
+          <td data-field="home_win" class="text-center js-jVitoriaCasa js-Status"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Casa">{{ match.home_win|floatformat:2 }}</button></td>
+          <td data-field="draw" class="text-center js-jEmpate js-Status"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Empate">{{ match.draw|floatformat:2 }}</button></td>
+          <td data-field="visiting_win" class="text-center js-jVitoriaFora js-Status"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Fora">{{ match.visiting_win|floatformat:2 }}</button></td>
           <td class="text-center js-jExtras"><button type="button" class="btn btn-default btn-xs" name="Extras"><i class="fa fa-plus" aria-hidden="true"></i></button></td>
         </tr>
         {% endfor %}
@@ -106,6 +106,9 @@
       var $this = $(this);
       var totalApostas = $(".js-groupAposta").siblings(".panel-heading").children(".badge");
       var totalValorAposta =  $(".js-totalValorAposta");
+      var typesBet = "";
+      var pkBet = "";
+
 
 
       $(".js-groupAposta li").find("#bet-pk-done").each(function(){
@@ -124,7 +127,12 @@
       // INSERIR VALOR DO PK E DO TYPE DA APOSTA NOS FIELDS DO FORMS SEPARADOS POR ;
       totalValorAposta.val(parseFloat(totalValorAposta.val()) + parseFloat($this.text().replace(",", ".")));
       calculatePossibleBetReturn();
-      arrayApostas();
+
+      typesBet += ';' + $this.closest('js-Status').prop('data-field');
+      console.log($this.closest('.js-Status').prop("class"));
+      pkBet += ';' + $this.closest('tr').find('#bet-pk').text();
+      $("#id_match_type").val(typesBet.replace(/^\;/ig, ""));
+      $("#id_match_pk").val(pkBet.replace(/^\;/ig, ""));
 
    });
 
