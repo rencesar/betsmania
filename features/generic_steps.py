@@ -13,7 +13,7 @@ def initial_page_access(step):
 @step(u'que acesso como visitante')
 def access_as_visit(step):
     assert_true(world.browser.is_text_not_present('Logado como'))
-    assert_true(world.browser.is_text_present('Login'))
+    assert_true(world.browser.is_text_present('Registre-se'))
 
 
 @step(u'clico no botão "([^"]*)"')

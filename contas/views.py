@@ -11,13 +11,16 @@ class LoginView(generic.FormView):
     form_class = AuthenticationForm
     template_name = 'accounts/login.html'
 
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form), status=420)
+
     def form_valid(self, form):
         auth_user.login(self.request, form.get_user())
         return super(LoginView, self).form_valid(form)
 
     def get_success_url(self):
         messages.success(self.request, _('Login successful!'))
-        return reverse('partidas:home')
+        return self.render_to_response(self.get_context_data())
 
 
 class CreateUserView(generic.CreateView):

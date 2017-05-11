@@ -25,9 +25,9 @@ def login_form(step):
 def fill_user_registration_form(step):
     for row in step.hashes:
         world.browser.fill('first_name', row['NOME'])
-        world.browser.fill('username', row['USERNAME'])
+        world.browser.find_by_name('username').last.fill(row['USERNAME'])
         world.browser.fill('email', row['EMAIL'])
-        world.browser.fill('password', row['SENHA'])
+        world.browser.find_by_name('password').last.fill(row['SENHA'])
 
 
 @step('terei um usuário "([^"]*)" cadastrado')

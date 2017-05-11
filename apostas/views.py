@@ -1,16 +1,15 @@
-import json
-from django.contrib import messages
-from django.http import HttpResponse
 from django.views import generic
+from django.contrib import messages
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-from . import models
+from . import models, forms
 from partidas.models import Match
 
 
-class BetCreateView(generic.View):
-    model = models.Bet
+class BetCreateView(generic.CreateView):
+    form_class = forms.BetSingleFieldForm
+    template_name = 'apostas/form_aposta.html'
 
     @cached_property
     def user(self):
@@ -18,28 +17,31 @@ class BetCreateView(generic.View):
             return self.request.user
         return None
 
-    @cached_property
-    def value(self):
-        value = self.request.GET.get('betsvalue', None)
-        if value is None:
-            return value
-        return float(value.replace(',', '.'))
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form), status=420)
 
-    def get(self, *args, **kwargs):
-        if not self.value:
-            messages.info(self.request, _('Bet\'s value not defined'))
-            return HttpResponse(self.request)
-        data = json.loads(self.request.GET['data'])
-        for key in data:
-            self.create_bet(Match.objects.get(pk=key), data[key])
-        return HttpResponse(json.dumps({'success': False, 'message': 'passou'}), content_type='application/json')
+    def form_valid(self, form):
+        dict_match = form.objects_dict()
+        self.value = float(form.cleaned_data['bet_value'])
+        group = self.create_bet_group()
+        print(group)
+        for pk, match_type in dict_match.items():
+            self.create_bet(pk, match_type, group)
+        messages.success(self.request, _('Your bet has been successfully placed'))
+        return self.render_to_response(self.get_context_data())
 
-    def create_bet(self, match, type):
+    def create_bet_group(self):
+        return models.BetGroup.objects.create(
+            user=self.user, value=self.value
+        )
+
+    def create_bet(self, match_pk, match_type, group):
         '''
         Cria aposta com dados passado pelo usuario na view
         '''
-        self.model.objects.create_with_code(
-            user=self.user, match=match,
-            value=self.value*float(getattr(match, type)),
-            type=_(type)
+        match = Match.objects.get(pk=match_pk)
+        models.Bet.objects.create(
+            match=match,
+            value=float(getattr(match, match_type)),
+            match_type=_(match_type), bet_group=group
         )

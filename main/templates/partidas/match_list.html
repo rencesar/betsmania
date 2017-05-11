@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-
+{% load static %}
+{% block title %}Página Inicial{% endblock %}
 {% block container %}
 <div class="col-md-12 home-bar">
   <ul class="list-group">
@@ -11,16 +12,17 @@
 
   <!-- PAINEL COM UM CAMPEONATO -->
   {% for league, matches in object_list.items %}
-    {% if matches %}
-    <div class="panel panel-default">
+  {% if matches %}
+  <div class="panel panel-default">
 
-      <div class="panel-heading bg-custom js-jCampeonato"><i class="fa fa-trophy" aria-hidden="true"></i> <strong>{{ league }}</strong></div>
+    <div class="panel-heading bg-custom js-jCampeonato"><i class="fa fa-trophy" aria-hidden="true"></i> <strong>{{ league }}</strong></div>
 
-      <!-- TABELA COM OS JOGOS DO CAMPEONATO -->
+    <!-- TABELA COM OS JOGOS DO CAMPEONATO -->
+    <div class="table-responsive">
       <table class="table table-bordered ">
         <thead>
         <tr class="info text-custom">
-          <th class="text-center">Data</th>
+          <th class="text-center">Data-Horas</th>
           <th class="text-center">Time Casa</th>
           <th class="text-center">Time Fora</th>
           <th class="text-center">Vitória Casa</th>
@@ -32,21 +34,22 @@
         <tbody>
         <!-- CADA TR É UM JOGO -->
         {% for match in matches %}
-          <tr class="js-infoApostaJogo" aria-label="Informação da Aposta do Jogo">
-            <td id="bet-pk" class="hidden">{{ match.pk }}</td>
-            <td data-field="date" class="text-center js-jData">{{ match.date|date:'d/m/Y à\s H:i' }}</td>
-            <td data-field="home_team" class="text-center js-jTimeCasa">{{ match.home_team }}</td>
-            <td data-field="visiting_team" class="text-center js-jTimeFora">{{ match.visiting_team }}</td>
-            <td data-field="home_win" class="text-center js-jVitoriaCasa"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Casa">{{ match.home_win|floatformat:2 }}</button></td>
-            <td data-field="draw" class="text-center js-jEmpate"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Empate">{{ match.draw|floatformat:2 }}</button></td>
-            <td data-field="visiting_win" class="text-center js-jVitoriaFora"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Fora">{{ match.visiting_win|floatformat:2 }}</button></td>
-            <td class="text-center js-jExtras"><button type="button" class="btn btn-default btn-xs" name="Extras"><i class="fa fa-plus" aria-hidden="true"></i></button></td>
-          </tr>
+        <tr class="js-infoApostaJogo" aria-label="Informação da Aposta do Jogo">
+          <td id="bet-pk" class="hidden">{{ match.pk }}</td>
+          <td data-field="date" class="text-center js-jData">{{ match.date|date:'d/m/Y à\s H:i' }}</td>
+          <td data-field="home_team" class="text-center js-jTimeCasa">{{ match.home_team }}</td>
+          <td data-field="visiting_team" class="text-center js-jTimeFora">{{ match.visiting_team }}</td>
+          <td data-field="home_win" class="text-center js-jVitoriaCasa js-Status"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Casa">{{ match.home_win|floatformat:2 }}</button></td>
+          <td data-field="draw" class="text-center js-jEmpate js-Status"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Empate">{{ match.draw|floatformat:2 }}</button></td>
+          <td data-field="visiting_win" class="text-center js-jVitoriaFora js-Status"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Fora">{{ match.visiting_win|floatformat:2 }}</button></td>
+          <td class="text-center js-jExtras"><button type="button" class="btn btn-default btn-xs" name="Extras"><i class="fa fa-plus" aria-hidden="true"></i></button></td>
+        </tr>
         {% endfor %}
         </tbody>
       </table>
     </div>
-    {% endif %}
+  </div>
+  {% endif %}
   {% endfor %}
 </div>
 
@@ -57,28 +60,7 @@
 
     <div class="panel-body">
 
-      <!-- AREA COM INPUT PARA ENTRADA DO VALOR DA APOSTA -->
-      <label for="basic-url" class="text-custom">Valor da Aposta *</label>
-      <div class="input-group">
-        <span class="input-group-addon text-success">$</span>
-        <input type="text" class="form-control js-inptValorAposta" aria-label="Valor da Aposta" autofocus>
-      </div>
-      <div role="separator" class="form-group"></div>
-
-      <!-- AREA QUE INFORMA POSSIVEL RETORNO -->
-      <div class="alert alert-info text-center" role="alert">
-        <label>Possivel Retorno</label>
-        <p>R$<span class="js-possivelRetorno"> 0,00</span></p>
-      </div>
-
-      <!-- REMOVER TODOS AS APOSTAS -->
-      <div class="btn-group btn-group-justified" >
-        <div class="btn-group">
-          <p><button type="button" id="salve-bets" class="btn btn-success"><strong>Salvar as apostas</strong></button></p>
-          <button type="button" class="btn btn-danger js-buttonRemoveAllBets"><strong><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remover todas as apostas</strong></button>
-        </div>
-      </div>
-      <div role="separator" class="form-group"></div>
+      <div id="form-wrapper"></div>
 
       <!-- PAINEL COM GRUPO DE APOSTAS -->
       <div class="panel panel-danger">
@@ -92,12 +74,14 @@
 
           <!-- AREA DE UMA APOSTA -->
           <li class="list-group-item border-danger hidden js-aposta text-danger">
-            <p id="bet-pk-done" class="hidden"></p>
-            <p id="bet-type-done" class="hidden"></p>
+            <p id="bet-pk-done" class="hidden js-betPkDone">none</p>
+            <p id="bet-type-done" class="hidden js-betTypeDone">none</p>
             <p class="js-jogo"></p>
             <p class="js-campeonato"></p>
             <p class="js-dataHora"></p>
-            <span class="js-tipoAposta"></span><strong id="bet-value-done"></strong> <!--Resolver problema quebra de linha-->
+            <p>
+              <span class="js-tipoAposta"></span><strong id="bet-value-done"></strong>
+            </p> <!--Resolver problema quebra de linha-->
             <div class="btn-group btn-group-justified" role="group" aria-label="...">
               <div class="btn-group" role="group">
                 <button type="button" class="btn bg-danger border-danger2 text-danger2 js-buttonRemoveBet"><strong><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remover essa Aposta</strong></button>
@@ -116,7 +100,6 @@
 
 <script type="text/javascript">
 
-
 // ADICIONAR UMA APOSTA
 (function addBet(){
 
@@ -125,10 +108,26 @@
       var totalApostas = $(".js-groupAposta").siblings(".panel-heading").children(".badge");
       var totalValorAposta =  $(".js-totalValorAposta");
 
-      $(".js-groupAposta").append(newBet($this));
-      totalApostas.text(parseInt(totalApostas.text()) + 1);
+
+
+      $(".js-groupAposta li").find("#bet-pk-done").each(function(){
+
+         if($(this).text().includes($this.parent().siblings("#bet-pk").text())){
+
+            totalValorAposta.val(parseFloat(totalValorAposta.val()) - parseFloat($(this).parent().find("#bet-value-done").text().replace(",", ".").replace(/([a-z\s\(\)])/ig, "")))
+            return $(this).parent().html(newBet($this).html());
+         }
+      });
+
+      if(!$(".js-betCopy").find("#bet-pk-done").text().includes($this.parent().siblings("#bet-pk").text())){
+         $(".js-groupAposta").append(newBet($this));
+         totalApostas.text(parseInt(totalApostas.text()) + 1);
+      }
+      // INSERIR VALOR DO PK E DO TYPE DA APOSTA NOS FIELDS DO FORMS SEPARADOS POR ;
       totalValorAposta.val(parseFloat(totalValorAposta.val()) + parseFloat($this.text().replace(",", ".")));
       calculatePossibleBetReturn();
+      arrayApostas();
+
    });
 
    function newBet(target){
@@ -143,10 +142,10 @@
       $aposta.removeClass("hidden");
       $aposta.addClass("js-betCopy");
       $aposta.find("#bet-pk-done").text($pk);
+      $aposta.find("#bet-type-done").text(target.closest("td").data("field"));
       $aposta.find(".js-jogo").text($timeCasa + " X " + $timeFora);
       $aposta.find(".js-campeonato").text($campeonato);
       $aposta.find(".js-dataHora").text($data);
-      $aposta.find("#bet-type-done").text(target.closest("td").data("field"));
       $aposta.find(".js-tipoAposta").text(target.prop("name") + " ");
       $aposta.find("#bet-value-done").text("("+ target.text() +")");
 
@@ -156,53 +155,49 @@
 })();
 
 
+function arrayApostas(){
+  var pkBet = "";
+  var typesBet = "";
+
+  $(".js-betPkDone").each(function(){
+    if($(this).text() != "none"){
+      pkBet += ";" + $(this).text();
+    }
+  });
+
+  $(".js-betTypeDone").each(function(){
+    if($(this).text() != "none"){
+      typesBet += ";" + $(this).text();
+    }
+  });
+
+  $("#id_match_pk").val(pkBet.replace(/^\;/ig, ""));
+  $("#id_match_type").val(typesBet.replace(/^\;/ig, ""));
+}
+
+
 // REMOVER TODAS AS APOSTAS
 (function removeAllBets(){
 
-   $(".js-buttonRemoveAllBets").click(function(){
+   $("#form-wrapper").on('click','.js-buttonRemoveAllBets', function(){
       var totalApostas = $(".js-groupAposta").siblings(".panel-heading").children(".badge");
       var totalValorAposta =  $(".js-totalValorAposta");
 
       $(".js-groupAposta").children(".js-betCopy").remove();
       totalApostas.text(0);
       totalValorAposta.val(0);
+      $("#id_match_pk").val('');
+      $("#id_match_type").val('');
       calculatePossibleBetReturn();
+      arrayApostas();
+
    });
 
 })();
 
-
-// SALVAR UMA APOSTA
-(function saveBets(){
-  $("#salve-bets").click(function(){
-      event.preventDefault();
-      var $painel = $(this).closest('.panel-body').find('.js-betCopy');
-      var data = {};
-      $painel.each(function(){
-        var pk = $(this).find('#bet-pk-done').text();
-        var type = $(this).find('#bet-type-done').text();
-        data[pk] = type;
-      });
-      var betsvalue = $(".js-inptValorAposta").val();
-      $.ajax({
-        url: '{% url 'apostas:realizar-aposta' %}',
-        data: {
-            'data': JSON.stringify(data),
-            'betsvalue': betsvalue,
-        },
-        success: function (data) {
-          console.log(data.messages);
-        },
-        error: function(data){
-            console.log(data);
-        },
-      });
-  });
-})();
-
-
 // REMOVER UMA APOSTA
 (function removeBet(){
+
 
    $(".js-groupAposta").on('click','.js-buttonRemoveBet', function(){
       var totalApostas = $(".js-groupAposta").siblings(".panel-heading").children(".badge");
@@ -210,11 +205,15 @@
 
       $(this).closest(".js-betCopy").remove();
       totalApostas.text(parseInt(totalApostas.text()) - 1);
-      totalValorAposta.val(parseFloat(totalValorAposta.val()) - parseFloat($(this).closest(".js-betCopy").find(".js-tipoAposta").text().replace(/([a-z\s\(\)])/ig, "")))
+      totalValorAposta.val(parseFloat(totalValorAposta.val()) - parseFloat($(this).closest(".js-betCopy").find(".js-tipoAposta").text().replace(",", ".").replace(/([a-z\s\(\)])/ig, "")))
       calculatePossibleBetReturn();
+
+      arrayApostas();
+
    });
 
 })();
+
 
 // CALCULO DE POSSIVEL RETORNO
 function calculatePossibleBetReturn(){
@@ -235,22 +234,43 @@ function calculatePossibleBetReturn(){
 (function whenchangeInputBetValue(){
 
    // QUANDO O IMPUT PERDER O FOCO O VALOR É FORMATADO PARA MOEDA
-   $(".js-inptValorAposta").on('focusout',function(){
-      var valorAposta = parseFloat($(".js-inptValorAposta").val().replace(",", ".").replace(/[^0-9\.]/ig,""))
+   $("#form-wrapper").on('focusout', ".js-inptValorAposta", function(){
+      var valorAposta = $(".js-inptValorAposta").val()
 
-      if(!isNaN(parseFloat($(".js-inptValorAposta").val().replace(/[^0-9\.\,]/ig,"") ) ) && $(".js-inptValorAposta").val() != ""){
-         $(".js-inptValorAposta").val(valorAposta.toFixed(2).replace(".", ",").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"));
+      if($(".js-inptValorAposta").val() != ""){
+         $(".js-inptValorAposta").val(valorAposta);
       }else {
          $(".js-inptValorAposta").val("");
       }
    });
 
    // QUANDO SE INSERI ALGUM VALOR NO INPUT E A TECLA SOBE O CALCULO DE POSSIVEL RETORNO É FEITO
-   $(".js-inptValorAposta").on('keyup',function(){
+   $("#form-wrapper").on('input', ".js-inptValorAposta", function(){
       calculatePossibleBetReturn();
    });
 
 })();
+
+
+$(document).ready(function() {
+  $.get('{% url 'apostas:realizar-aposta' %}', function(data) {
+        $('#form-wrapper').html(data);
+  });
+
+  $('body').on('submit', '#form-wrapper form', function(event) {
+    event.preventDefault();
+    var form = $(this);
+    form.ajaxSubmit({
+      dataType: 'html',
+      success: function(response) {
+        showMessage(message, tag)
+      },
+      error: function(data, textStatus) {
+        form.replaceWith(data.responseText);
+      },
+    });
+  });
+});
 
 
 </script>

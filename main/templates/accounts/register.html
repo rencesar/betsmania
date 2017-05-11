@@ -2,11 +2,6 @@
 
 {% block container %}
 
-{% for message in messages %}
-{{ message }}
-{% endfor %}
-
-
 <section class="section-cadastrar">
   <div class="col-xs-12 col-sm-8 col-md-6">
 
@@ -16,7 +11,7 @@
     </div>
 
 
-    <form id="login" method="POST" action="{{ request.path }}">{% csrf_token %}
+    <form id="register-form" method="POST" action="{{ request.path }}">{% csrf_token %}
 
       <div class="form-group{% if form.username.errors %} has-error{% endif %}">
         <label for="inputName">Nome Completo</label>

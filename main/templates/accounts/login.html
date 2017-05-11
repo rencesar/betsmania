@@ -1,61 +1,37 @@
-{% extends "base.html" %}
-
-{% block container %}
-<div data-show="false" class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="modalLoginLabel">
- <div class="modal-dialog" role="document">
-  <div class="modal-content">
-   <div class="modal-header modal-header--login">
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title " id="modalLoginLabel">Acessar BetsMania</h4>
-   </div>
-   <div class="modal-body modal-body--login">
-    <form class="form-horizontal" id="login" method="POST" action="{{ request.path }}">
-     {% csrf_token %}
-
-     {% for error in form.non_field_errors %}
-       <div class="alert alert-danger">{{ error }}</div>
-     {% endfor %}
-
-     <div class="form-group">
-
-      <div class="col-sm-offset-1 col-sm-10 {% if form.username.errors %} has-error{% endif %}">
-       <label for="id_username" class="control-label">Usuário</label>
-       <input type="text" name="username" class="form-control" id="id_username" required autofocus maxlength="254">
-       {% if form.username.errors %}
+<li class="itemMenu--a-btn" >
+<a class="a-btn">
+<form method="POST" class="form-inline" action="{{ request.path }}">
+   {% csrf_token %}
+   {% for error in form.non_field_errors %}
+     <div class="text-danger">{{ error }}</div>
+   {% endfor %}
+   <div class="form-group ">
+      {% if form.username.errors %}
         {% for error in form.username.errors %}
          <span class="help-inline">{{ error }}</span>
         {% endfor %}
-       {% endif %}
-      </div>
-     </div>
-     <div class="form-group">
-      <div class="col-sm-offset-1 col-sm-10{% if form.password.errors %} has-error{% endif %}">
-       <label for="id_password" class="control-label">Senha</label>
-       <input type="password" name="password" class="form-control" id="id_password" required>
-       {% if form.password.errors %}
+      {% endif %}
+      <input type="text" class="input-login col-xs-12 " name="username" id="id_username" placeholder="Usuário" required maxlength="254">
+   </div>
+   <div class="form-group ">
+      {% if form.password.errors %}
         {% for error in form.password.errors %}
          <span class="help-inline">{{ error }}</span>
         {% endfor %}
-       {% endif %}
-      </div>
-     </div>
-     <div class="form-group">
-      <div class="col-sm-offset-1 col-sm-10">
-       <div class="checkbox">
-        <label>
-         <input type="checkbox"> Me lembre
-        </label>
-       </div>
-      </div>
-     </div>
-     <div class="form-group">
-      <div class="col-xs-offset-1 col-sm-offset-1 col-sm-10">
-       <button type="submit" class="btn col-xs-offset-1 col-xs-9 col-sm-10 btn-default btn-entrar">Entrar</button>
-      </div>
-     </div>
-    </form>
+      {% endif %}
+      <input type="password" class="input-login col-xs-12" name="password" id="id_password" placeholder="Senha" required>
    </div>
-  </div>
- </div>
+   <div class="form-group">
+      <button type="submit" class="btn-entrar col-xs-12">Entrar</button>
+   </div>
+<div class="form-inline ">
+   <div class="form-group form-registrar">
+      <a class="a-registrar" href="{% url 'contas:cadastro' %}">Registre-se</a>
+   </div>
+   <div class="form-group col-sm-6 form-esqueciSenha">
+      <a class="a-esqueciSenha" href="#">Recuperar Senha</a>
+   </div>
 </div>
-{% endblock %}
+</form>
+</a>
+</li>

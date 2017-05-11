@@ -1,5 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
+
 <html lang="pt-br">
 <head>
     <meta charset="utf-8">
@@ -11,9 +12,10 @@
     <!-- Bootstrap core CSS -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/styleBase.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styleHome.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styleLogged.css' %}" rel="stylesheet">
     <link href="{% static 'css/styleLogin.css' %}" rel="stylesheet">
     <link href="{% static 'css/styleRegister.css' %}" rel="stylesheet">
-    <link href="{% static 'css/styleHome.css' %}" rel="stylesheet">
     <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
 </head>
 
@@ -21,45 +23,47 @@
 
 <!-- Fixed navbar -->
 <nav class="navbar navbar-default navbar--style navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle navbar-toggle--style collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">BetsMania</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <div role="separator" class="col-sm-1 col-md-3"></div>
-            <ul class="nav navbar-nav navbar-center">
-                <li class="itemMenu"><a href="#" class="itemMenu--a">Jogos</a></li>
-                <li class="itemMenu"><a href="#about" class="itemMenu--a">Apostas</a></li>
-                <li class="itemMenu"><a href="#contact" class="itemMenu--a">Regras</a></li>
-                <li class="itemMenu"><a href="#contact" class="itemMenu--a">Contatos</a></li>
+   <div class="navbar-header">
+      <button type="button" class="navbar-toggle navbar-toggle--style collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+         <span class="sr-only">Toggle navigation</span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">
+         BetsMania
+         <img class="logo" alt="Brand" src="{% static 'img/ball1.png' %}">
+      </a>
+   </div>
+   {% if user.is_authenticated %}
+   <div class="divider-row"></div>
+   {% endif %}
+   <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-center">
+         <li class="itemMenu"><a href="#" class="itemMenu--a">Jogos</a></li>
+         <li class="itemMenu"><a href="#about" class="itemMenu--a">Apostas</a></li>
+         <li class="itemMenu"><a href="#contact" class="itemMenu--a">Regras</a></li>
+         <li class="itemMenu"><a href="#contact" class="itemMenu--a">Contatos</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+         {% if user.is_authenticated %}
+         <li class="dropdown userLogged">
+            <a href="#" class="dropdown-toggle userLogged--a" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+               <img src="{% static 'img/02.jpg' %}" alt="Foto de Perfil" class="img-circle profilePicture">
+               <h4 class="nameUser">{{ user }}<span class="caret"></span></h4>
+            </a>
+            <ul class="dropdown-menu optionUser">
+               <li><a href="#">Perfil</a></li>
+               <li><a href="#">Minhas Apostas</a></li>
+               <li role="separator" class="divider"></li>
+               <li><a href="{% url 'contas:logout' %}">Sair</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                {% if user.is_authenticated %}
-                <li class="dropdown userLogged">
-                    <a href="#" class="dropdown-toggle userLogged--a" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user }}<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Perfil</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="{% url 'contas:logout' %}">Sair</a></li>
-                    </ul>
-                </li>
-                {% else %}
-                <li class="itemMenu--a-btn" ><a class="a-btn" href="{% url 'contas:login' %}">
-                    <button type="button" class="btn btn-default btn-default1 navbar-btn col-xs-12">Fazer Login</button>
-                </a></li>
-                <li class="itemMenu--a-btn" ><a class="a-btn" href="{% url 'contas:cadastro' %}">
-                    <button type="button" class="btn btn-default btn-default1 navbar-btn col-xs-12">Criar Conta</button>
-                </a></li>
-                {% endif %}
-            </ul>
-        </div><!--/.nav-collapse -->
-    </div>
+         </li>
+         {% else %}
+         <div id="form-login"></div>
+         {% endif %}
+      </ul>
+   </div><!--/.nav-collapse -->
 </nav>
 
 <div class="container-fluid">
@@ -72,9 +76,9 @@
 <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.js' %}"></script>
 <script src="{% static 'js/bootstrap-notify.js' %}"></script>
+<script src="{% static 'js/jquery.form.js' %}"></script>
 <script type="text/javascript">
-   // Open login modal
-   $('#modalLogin').modal('show');
+
 function showMessage(message, tag){
      $.notify({
          message: message
@@ -92,6 +96,29 @@ function showMessage(message, tag){
     showMessage('{{message}}', '{{message.tags}}');
 {% endfor %}
 {% endif %}
+
+$(document).ready(function(){
+   $.get('{% url 'contas:login' %}', function(data){
+      $('#form-login').html(data);
+   });
+
+   $('body').on('submit', '#form-login form', function(event) {
+      event.preventDefault();
+      var form = $(this);
+      form.ajaxSubmit({
+         dataType: 'html',
+         success: function(response) {
+           console.log(response)
+           location.reload();
+         },
+         error: function(data, textStatus) {
+           form.replaceWith(data.responseText);
+         },
+      });
+    });
+
+
+});
 </script>
 {% block js %}{% endblock %}
 </body>
