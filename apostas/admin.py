@@ -9,8 +9,9 @@ class BetGroupAdmin(admin.ModelAdmin):
     search_fields = [
         'user__first_name', 'user__username', 'code',
     ]
-            
 
+
+@admin.register(models.Bet)
 class BetAdmin(admin.ModelAdmin):
     list_display = [
         'code', 'user', 'match', 'match_type', 'date'
@@ -28,6 +29,3 @@ class BetAdmin(admin.ModelAdmin):
 
     def date(self, obj):
         return obj.bet_group.date
-
-
-admin.site.register(models.Bet, BetAdmin)

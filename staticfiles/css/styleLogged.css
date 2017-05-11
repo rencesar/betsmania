@@ -1,0 +1,92 @@
+.userLogged--a:focus,
+.userLogged--a:active,
+.userLogged--a{
+   color:#fff !important;
+   background-color: #5F798C !important;
+}
+
+.userLogged li > a,
+.userLogged li:hover > a{
+   color: #5F798C !important;
+}
+
+.userLogged,
+.userLogged--a{
+   float: right !important;
+   min-height: 64px;
+   line-height: 32px !important;
+}
+
+.userLogged{
+   margin-right: -10px;
+}
+
+.userLogged--a{
+   min-width: 186px;
+   padding-right: 50px !important;
+   border-top-left-radius: 50px;
+   border-bottom-left-radius: 50px;
+}
+
+.profilePicture{
+   width: 55px;
+   position: absolute;
+   left: 6px;
+   top: 5px;
+}
+
+.nameUser{
+   margin: 0;
+   font-size: 14px;
+   line-height: 32px;
+   font-weight: bold;
+   text-align: right;
+}
+
+.optionUser{
+   margin-top: -3px !important;
+   border: 3px solid #5F798C;
+}
+
+@media screen and (max-width: 767px) {
+   .nav .userLogged li{
+      padding: 0 15px;
+      margin-bottom: 4px;
+   }
+
+   .nav .userLogged  li  a{
+      border-bottom: 1px solid rgba(255,255,255,.3);
+      color: #fff !important;
+   }
+
+   .userLogged > .userLogged--a,
+   .userLogged--a:focus,
+   .userLogged--a:active,
+   .itemMenu:hover .userLogged--a{
+      padding: 15px 15px !important;
+      background-color:#fff  !important;
+      color: #5F798C !important;
+      text-align: center;
+   }
+
+   .userLogged,
+   .userLogged--a{
+      float: left !important;
+      width: 100%;
+      min-height: 0;
+      line-height: 20px !important;
+   }
+
+   .profilePicture{
+      width: 57px;
+      top: 3px;
+      left: 4px;
+   }
+
+   .optionUser{
+      margin-right: 0;
+      margin-top: 61px !important;
+      border: 2px solid #fff !important;
+      border-top-color: transparent !important;
+   }
+}
