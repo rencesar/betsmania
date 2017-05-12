@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Página Inicial{% endblock %}
+{% block container %}
+{% for obj in object_list %}
+  <div class="panel panel-default">
+
+    <!-- TABELA COM OS JOGOS DO CAMPEONATO -->
+    <div class="table-responsive">
+      <table class="table table-bordered ">
+        <thead>
+        <tr class="info text-custom">
+          <th class="text-center">Data-Horas</th>
+          <th class="text-center">Time Casa</th>
+          <th class="text-center">Time Fora</th>
+          <th class="text-center">Vitória Casa</th>
+          <th class="text-center">Empate</th>
+          <th class="text-center">Vitória Fora</th>
+          <th class="text-center">Extras</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- CADA TR É UM JOGO -->
+        {% for match in obj.bet.all  %}
+        <tr class="js-infoApostaJogo" aria-label="Informação da Aposta do Jogo">
+          <td id="bet-pk" class="hidden">{{ match.pk }}</td>
+          <td data-field="date" class="text-center js-jData">{{ obj.date|date:'d/m/Y à\s H:i' }}</td>
+          <td data-field="home_team" class="text-center js-jTimeCasa">{{ match.home_team }}</td>
+          <td data-field="visiting_team" class="text-center js-jTimeFora">{{ match.visiting_team }}</td>
+          <td data-field="home_win" class="text-center js-jVitoriaCasa js-Status"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Casa">{{ match.home_win|floatformat:2 }}</button></td>
+          <td data-field="draw" class="text-center js-jEmpate js-Status"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Empate">{{ match.draw|floatformat:2 }}</button></td>
+          <td data-field="visiting_win" class="text-center js-jVitoriaFora js-Status"><button type="button" class="btn btn-default btn-xs js-btnAposta" name="Fora">{{ match.visiting_win|floatformat:2 }}</button></td>
+          <td class="text-center js-jExtras"><button type="button" class="btn btn-default btn-xs" name="Extras"><i class="fa fa-plus" aria-hidden="true"></i></button></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endfor %}
+{% endblock %}

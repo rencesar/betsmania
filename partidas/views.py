@@ -9,6 +9,8 @@ class MatchListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(MatchListView, self).get_context_data(**kwargs)
-        context['object_list'] = {league: self.object_list.filter(league=league.pk)
-                                  for league in League.objects.all()}
+        context['object_list'] = {
+            league: self.object_list.filter(league=league.pk)
+            for league in League.objects.all()
+        }
         return context
