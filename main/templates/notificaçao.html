@@ -1,0 +1,16 @@
+function showMessage(message, tag){
+  $.notify({
+    message: message,
+    target: '_blank'
+  },{
+    // settings
+    element: 'body',
+    position: null,
+    type: tag,
+    allow_dismiss: false,
+    offset: {
+      x: 10,
+      y: 80
+    }
+  });
+};

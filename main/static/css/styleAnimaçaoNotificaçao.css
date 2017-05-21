@@ -1,0 +1,15 @@
+[data-notify="container"]{
+  animation: anim 5s ease-in-out forwards;
+}
+
+@keyframes anim {
+  0%{
+    transform: translateX(200%);
+  }
+  10%, 80%{
+    transform: translateX(0%);
+  }
+  100%{
+    transform: translateX(200%);
+  }
+}
