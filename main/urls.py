@@ -12,20 +12,20 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 ]
 
-# if settings.DEBUG:
-#     urlpatterns.extend([
-#         url(
-#             r'^docs/(?P<path>.*)$', serve,
-#             {'document_root': os.path.join(settings.DOCS_ROOT, 'build/html/'),
-#              'show_indexes': False}
-#         ),
-#         url(
-#             r'^static/(?P<path>.*)$', serve,
-#             {'document_root': os.path.join(settings.STATIC_ROOT),
-#              'show_indexes': False}
-#         )
-#     ])
-#     import debug_toolbar
-#     urlpatterns = [
-#         url(r'^__debug__/', include(debug_toolbar.urls)),
-#     ] + urlpatterns
+if settings.DEBUG:
+     urlpatterns.extend([
+         url(
+             r'^docs/(?P<path>.*)$', serve,
+             {'document_root': os.path.join(settings.DOCS_ROOT, 'build/html/'),
+              'show_indexes': False}
+         ),
+         url(
+             r'^static/(?P<path>.*)$', serve,
+             {'document_root': os.path.join(settings.STATIC_ROOT),
+              'show_indexes': False}
+         )
+     ])
+     import debug_toolbar
+     urlpatterns = [
+         url(r'^__debug__/', include(debug_toolbar.urls)),
+     ] + urlpatterns

@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Página Inicial{% endblock %}
+{% block css %}
+<link href="{% static 'css/styleUsuarioApostas.css' %}" rel="stylesheet"> 
+{% endblock %} 
 {% block container %}
-{% for obj in object_list %}
 <div class="sidebar-campeonatos col-md-3">
   <div class="sidebar-campeonatos--toggle">
     <button type="button" class="text-center is-closed" data-toggle="true"><strong>C<br>A<br>M<br>P<br>E<br>O<br>N<br>A<br>T<br>O<br>S</strong></button>
@@ -11,7 +13,7 @@
     <h2>Campeonatos</h2>
   </div>
   <div class="list-group sidebar-campeonatos--list">
-    <button type="button" class="list-group-item" >Liga Espanhola</button>
+    <button type="button" class="list-group-item">Liga Espanhola</button>
     <button type="button" class="list-group-item">Brasileirão</button>
   </div>
 </div>
@@ -20,8 +22,18 @@
   <div class="panel-heading bg-custom text-center"><strong><h1>Minhas Apostas</h1></strong></div>
 
 
+{% for bet_group in object_list %}
   <div class="panel panel-default">
-    <div class="panel-heading bg-custom"><i class="fa fa-trophy" aria-hidden="true"></i> <strong>league</strong></div>
+      <div class="panel-heading bg-custom">
+        <div class="row">
+          <div class="col-md-6 text-left">
+            <span class="float-md-left"><i class="fa fa-trophy" aria-hidden="true"></i> <strong>Grupo de Apostas - {{ bet_group.code }}</strong>
+          </div>
+          <div class="col-md-6 text-right">
+            <span class="float-md-right"><strong>{{ bet_group.date }}</strong></span>
+          </div>
+        </div>
+      </div>
     <div class="table-responsive">
       <table class="table table-bordered ">
         <thead>
@@ -36,78 +48,23 @@
         </thead>
 
         <tbody>
+        {% for bet in bet_group.bet_group.all %}
           <tr>
-            <td class="text-center">Real</td>
-            <td class="text-center">Barça</td>
-            <td class="text-center">Empate</td>
-            <td class="text-center">3.5</td>
+            <td class="text-center">{{ bet.match.home_team }}</td>
+            <td class="text-center">{{ bet.match.visiting_team }}</td>
+            <td class="text-center">{{ bet.match_type }}</td>
+            <td class="text-center">{{ bet.value }}</td>
             <td class="text-center editar"><a class="btn btn-default btn-xs " href="#"><i class="fa fa-pencil text-warning" aria-hidden="true"></i></a></td>
             <td class="text-center excluir"><a class="btn btn-default btn-xs " href="#"><i class="fa fa-trash text-danger" aria-hidden="true"></i></a></td>
+          </tr>
+        {% endfor %}
           </tbody>
         </table>
       </div>
     </div>
 
-
-    <div class="panel panel-default">
-      <div class="panel-heading bg-custom"><i class="fa fa-trophy" aria-hidden="true"></i> <strong>league</strong></div>
-      <div class="table-responsive">
-        <table class="table table-bordered ">
-          <thead>
-            <tr class="info text-custom">
-              <th class="text-center">Time Casa</th>
-              <th class="text-center">Time Fora</th>
-              <th class="text-center">Tipo de Aposta</th>
-              <th class="text-center">Valor de Aposta</th>
-              <th class="text-center">Editar</th>
-              <th class="text-center">Excluir</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr>
-              <td class="text-center">Real</td>
-              <td class="text-center">Barça</td>
-              <td class="text-center">Empate</td>
-              <td class="text-center">3.5</td>
-              <td class="text-center editar"><a class="btn btn-default btn-xs " href="#"><i class="fa fa-pencil text-warning" aria-hidden="true"></i></a></td>
-              <td class="text-center excluir"><a class="btn btn-default btn-xs " href="#"><i class="fa fa-trash text-danger" aria-hidden="true"></i></a></td>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-
-      <div class="panel panel-default">
-        <div class="panel-heading bg-custom"><i class="fa fa-trophy" aria-hidden="true"></i> <strong>league</strong></div>
-        <div class="table-responsive">
-          <table class="table table-bordered ">
-            <thead>
-              <tr class="info text-custom">
-                <th class="text-center">Time Casa</th>
-                <th class="text-center">Time Fora</th>
-                <th class="text-center">Tipo de Aposta</th>
-                <th class="text-center">Valor de Aposta</th>
-                <th class="text-center">Editar</th>
-                <th class="text-center">Excluir</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="text-center">Real</td>
-                <td class="text-center">Barça</td>
-                <td class="text-center">Empate</td>
-                <td class="text-center">3.5</td>
-                <td class="text-center editar"><a class="btn btn-default btn-xs " href="#"><i class="fa fa-pencil text-warning" aria-hidden="true"></i></a></td>
-                <td class="text-center excluir"><a class="btn btn-default btn-xs " href="#"><i class="fa fa-trash text-danger" aria-hidden="true"></i></a></td>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-      {% endblock %}
+{% endfor %}
+{% endblock %}
 {% block js %}
   <script src="{% static 'js/sideBarCampeonatosToggle.js' %}"></script>
 
